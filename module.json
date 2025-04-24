@@ -1,4 +1,5 @@
 {
+    "id": "ve-tile-submenu",
     "name": "tile-submenu",
     "title": "Tile Submenu Actions",
     "description": "Attach an interactive submenu to Active Tiles for 5e games.",
