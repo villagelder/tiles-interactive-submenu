@@ -1,2 +1,2 @@
 # interactive-submenu
-An interactive submenu for objects (tiles) in foundry vtt.
+An interactive player submenu for useable objects (tiles) in foundry vtt.
