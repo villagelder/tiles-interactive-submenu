@@ -1,7 +1,7 @@
 {
     "id": "ve-tile-submenu",
-    "name": "tile-submenu",
-    "title": "Tile Submenu Actions",
+    "name": "ve-tile-submenu",
+    "title": "Villagelder's Tiles Interactive Submenu",
     "description": "Attach an interactive submenu to Active Tiles for 5e games.",
     "version": "1.0.0",
     "author": "Your Name",
