@@ -2,7 +2,7 @@
     "name": "tile-submenu",
     "title": "Tile Submenu Actions",
     "description": "Attach an interactive submenu to Active Tiles for 5e games.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Your Name",
     "minimumCoreVersion": "11",
     "compatibleCoreVersion": "11",
