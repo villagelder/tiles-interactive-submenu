@@ -1,0 +1,49 @@
+<form autocomplete="off">
+    <div id="scroll-wrapper">
+      <div id="actions-container">
+        {{#each actions as |action idx|}}
+        <fieldset class="action-entry" data-index="{{idx}}">
+          <legend>Action {{idx}}</legend>
+  
+          <div class="form-row">
+            <input type="text" name="actions.{{idx}}.label" value="{{action.label}}" placeholder="Action Label (e.g., Search)" />
+            <select name="actions.{{idx}}.type">
+              <option value="skill" {{#if (eq action.type 'skill')}}selected{{/if}}>Skill</option>
+              <option value="spell" {{#if (eq action.type 'spell')}}selected{{/if}}>Spell</option>
+            </select>
+            <input type="text" name="actions.{{idx}}.key" value="{{action.key}}" placeholder="Skill/Spell Key (e.g., per)" />
+          </div>
+  
+          <div class="form-row">
+            <input type="number" name="actions.{{idx}}.dc" value="{{action.dc}}" placeholder="DC" />
+            <input type="text" name="actions.{{idx}}.critFail" value="{{action.critFail}}" placeholder="Critical Fail (e.g., 1,2)" />
+            <label class="checkbox-inline">
+              <input type="checkbox" name="actions.{{idx}}.deleteOnSuccess" {{#if action.deleteOnSuccess}}checked{{/if}} />
+              Delete tile on success
+            </label>
+          </div>
+  
+          <div class="form-row">
+            <textarea name="actions.{{idx}}.onSuccess" rows="1" placeholder="Success Message">{{action.onSuccess}}</textarea>
+            <textarea name="actions.{{idx}}.onFail" rows="1" placeholder="Failure Message">{{action.onFail}}</textarea>
+          </div>
+  
+          <button type="button" class="remove-action" data-index="{{idx}}">
+            <i class="fas fa-trash-alt"></i> Remove
+          </button>
+        </fieldset>
+        {{/each}}
+      </div>
+    </div>
+  
+    <button type="button" id="add-action">
+      <i class="fas fa-plus-circle"></i> Add New Action
+    </button>
+  
+    <footer class="sheet-footer flexrow">
+      <button type="submit" class="submit-button">
+        <i class="fas fa-save"></i> Save
+      </button>
+    </footer>
+  </form>
+  
