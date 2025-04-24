@@ -1,7 +1,7 @@
 {
-    "id": "ve-tile-submenu",
-    "name": "ve-tile-submenu",
-    "title": "Villagelder's Tiles Interactive Submenu",
+    "id": "ve-tiles-interactive-submenu",
+    "name": "ve-tiles-interactive-submenu",
+    "title": "Villagelder's Interactive Submenu",
     "description": "Attach an interactive submenu to Active Tiles for 5e games.",
     "version": "1.0.0",
     "author": "Your Name",
@@ -12,7 +12,7 @@
     "styles": ["styles/submenu.css"],
     "packs": [],
     "url": "https://github.com/villagelder/tiles-interactive-submenu",
-    "manifest": "https://raw.githubusercontent.com/yourname/tile-submenu/main/module.json",
-    "download": "https://github.com/yourname/tile-submenu/archive/refs/heads/main.zip"
+    "manifest": "https://raw.githubusercontent.com/villagelder/tiles-interactive-submenu/main/module.json",
+    "download": "https://github.com/villagelder/tiles-interactive-submenu/archive/refs/heads/main.zip"
   }
   
