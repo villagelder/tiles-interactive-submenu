@@ -95,7 +95,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
   const tabId = "ve-submenu";
 
   // Add a new tab button at the top (next to Basic, Overhead, Triggers)
-  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i>Interaction</a>`);
+  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i>Interactive</a>`);
   html.find('.sheet-tabs').first().append(newTabButton);
 
   // Add the tab content container
@@ -110,7 +110,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
         </div>
   
         <button type="button" class="ve-add-interaction">
-          <i class="fas fa-plus"></i> Add Interaction
+          <i class="fas fa-plus"></i>Add Interaction
         </button>
       </div>
     </div>
