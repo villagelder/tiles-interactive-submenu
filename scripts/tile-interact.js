@@ -24,7 +24,7 @@ class TileInteractDialog extends FormApplication {
       id: "tile-interact-dialog",
       title: "Interactive Tile Options",
       template:
-        "modules/ve-tiles-interactive-submenu/templates/interact-dialog.html",
+        "modules/ve-tiles-interactive-submenu/templates/interact-dialogue.html",
       width: 600,
       height: 700,
       resizable: true,
@@ -35,7 +35,8 @@ class TileInteractDialog extends FormApplication {
   getData() {
     return {
       interactions:
-        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [],
+        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
+        [],
     };
   }
 
@@ -53,7 +54,8 @@ class TileInteractDialog extends FormApplication {
 
     html.find(".add-interaction").click((ev) => {
       const interactions =
-        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
+        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
+        [];
       if (interactions.length >= 8) {
         ui.notifications.warn("Maximum 8 interactions allowed per tile.");
         return;
@@ -77,7 +79,8 @@ class TileInteractDialog extends FormApplication {
         ev.currentTarget.closest(".interaction-card").dataset.index
       );
       const interactions =
-        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
+        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
+        [];
       interactions.splice(index, 1);
       this.object.setFlag(
         "ve-tiles-interactive-submenu",
