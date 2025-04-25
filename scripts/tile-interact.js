@@ -17,6 +17,22 @@ Hooks.on("renderTileHUD", (hud, html) => {
   html.find(".left").append(toolsButton);
 });
 
+Hooks.once("init", async () => {
+  // Helper for conditional logic
+  Handlebars.registerHelper("eq", function (a, b) {
+    return a === b;
+  });
+
+  // Register main interaction-card partial
+  const cardTemplate = await fetch(
+    "modules/ve-tiles-interactive-submenu/templates/interaction-card.html"
+  ).then((res) => res.text());
+  Handlebars.registerPartial(
+    "modules/ve-tiles-interactive-submenu/templates/interaction-card.html",
+    cardTemplate
+  );
+});
+
 // The main interaction editing dialog
 class TileInteractDialog extends FormApplication {
   static get defaultOptions() {
