@@ -88,31 +88,27 @@ Hooks.on("ready", () => {
   });
 });
 
-// ✅ Inject a new tab into the Tile Config
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
-  // Custom tab name (not used by Monk's Active Tile Triggers)
-  const tabId = "ve-submenu";
-
-  // Render tab button with unique label
-  const tabButton = `<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i> VE Interact</a>`;
-  html.find(".sheet-tabs").append(tabButton);
-
-  // Create the tab content
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
-  const submenuHtml = `
-    <div class="tab" data-tab="${tabId}">
-      <p>🛠️ Submenu Actions Configured: ${actions.length}</p>
+
+  // Inject into the "Basic" tab (or any safe tab)
+  const container = html.find(`.tab[data-tab="basic"]`);
+  if (!container.length) return;
+
+  const btnHtml = `
+    <div class="form-group">
+      <label>Interactive Submenu</label>
       <button type="button" class="submenu-launch">
-        <i class="fas fa-cog"></i> Open Full Config
+        <i class="fas fa-tools"></i> Open Submenu Config (${actions.length} actions)
       </button>
     </div>
   `;
-  html.find(".sheet-body").append(submenuHtml);
+  container.append(btnHtml);
 
-  // Launch FormApplication
   html.find(".submenu-launch").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
   });
 });
+
