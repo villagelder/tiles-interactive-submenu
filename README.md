@@ -10,6 +10,7 @@ This module adds an interactive submenu to tiles in Foundry VTT, allowing player
   - Search (Perception)
   - Inspect (Investigation)
   - Unlock (Thieves' Tools)
+  - Target with Spell
   - Disarm (Thieves' Tools)
   - Attack (Melee)
 
