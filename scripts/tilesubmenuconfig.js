@@ -9,8 +9,9 @@ class TileSubmenuConfig extends FormApplication {
         title: "Tile Submenu Configuration",
         id: "tile-submenu-config",
         template: "modules/tiles-interactive-submenu/templates/config.html",
-        width: 600,
+        width: 720,
         height: "auto",
+        submitOnChange: false
       });
     }
   
