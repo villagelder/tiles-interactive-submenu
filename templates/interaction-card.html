@@ -1,24 +1,43 @@
-<div class="interaction-card">
-    <div class="flexrow">
-      <select name="interactions.{{@index}}.type" class="interaction-type">
-        <option value="">-- Select Interaction Type --</option>
-        <option value="attack">Attack</option>
-        <option value="saving-throw">Saving Throw</option>
-        <option value="skill-check">Skill Check</option>
-        <option value="unlock">Lock/Unlock</option>
-        <option value="trap">Trap</option>
-        <option value="spell-target">Spell Target</option>
-        <option value="success">Success</option>
-        <option value="failure">Failure</option>
-      </select>
-  
-      <button type="button" class="delete-interaction">
-        <i class="fas fa-trash"></i>
-      </button>
-    </div>
-  
-    <div class="interaction-details">
-      <!-- dynamic fields will go here -->
-    </div>
+<div class="interaction-card" data-index="{{@index}}">
+  <div class="flexrow">
+    <select name="interactions.{{@index}}.type" class="interaction-type">
+      <option value="">-- Select Interaction Type --</option>
+      <option value="attack">Attack</option>
+      <option value="saving-throw">Saving Throw</option>
+      <option value="skill-check">Skill Check</option>
+      <option value="unlock">Lock/Unlock</option>
+      <option value="trap">Trap</option>
+      <option value="spell-target">Spell Target</option>
+      <option value="success">Success</option>
+      <option value="failure">Failure</option>
+    </select>
+
+    <button type="button" class="delete-interaction">
+      <i class="fas fa-trash"></i>
+    </button>
   </div>
-  
+
+  <div class="interaction-details">
+    {{#if (eq type "attack")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/attack.html" this}}
+    {{/if}}
+    {{#if (eq type "saving-throw")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/saving-throw.html" this}}
+    {{/if}}
+    {{#if (eq type "skill-check")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/skill-check.html" this}}
+    {{/if}}
+    {{#if (eq type "unlock")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/unlock.html" this}}
+    {{/if}}
+    {{#if (eq type "trap")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/trap.html" this}}
+    {{/if}}
+    {{#if (eq type "success")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/success.html" this}}
+    {{/if}}
+    {{#if (eq type "failure")}}
+      {{> "modules/ve-tiles-interactive-submenu/templates/fields/failure.html" this}}
+    {{/if}}
+  </div>
+</div>
