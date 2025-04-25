@@ -88,6 +88,7 @@ Hooks.on("ready", () => {
     });
   });
 
+  Hooks.once('ready', () => {
   Hooks.on("getSceneControlButtons", controls => {
     const tileControls = controls.find(c => c.name === "tiles");
     if (!tileControls || !game.user.isGM) return;
@@ -104,5 +105,6 @@ Hooks.on("ready", () => {
       }
     });
   });
+});
   
   
