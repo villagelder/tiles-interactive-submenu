@@ -91,32 +91,33 @@ Hooks.on("ready", () => {
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
-  const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
+  // Create a unique tab ID
+  const tabId = "ve-submenu";
 
-  // Add a new tab button manually
-  const newTabButton = $(`<a class="item" data-tab="ve-interact"><i class="fas fa-tools"></i> VE Interact</a>`);
-  html.find('.sheet-tabs').append(newTabButton);
+  // Add a new tab button at the top (next to Basic, Overhead, Triggers)
+  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i> VE Submenu</a>`);
+  html.find('.sheet-tabs').first().append(newTabButton);
 
-  // Add the tab content manually
+  // Add the tab content container
   const newTabContent = $(`
-    <div class="tab" data-tab="ve-interact">
+    <div class="tab" data-tab="${tabId}">
       <div class="form-group">
-        <h3>Interactive Submenu</h3>
-        <p>Actions Configured: ${actions.length}</p>
+        <h2>Tile Interactive Submenu</h2>
+        <p>Actions configured on this tile will be used for player interaction.</p>
         <button type="button" class="submenu-launch">
-          <i class="fas fa-cog"></i> Open Submenu Config
+          <i class="fas fa-cog"></i> Configure Submenu Actions
         </button>
       </div>
     </div>
   `);
-  html.find('.sheet-body').append(newTabContent);
+  html.find('.sheet-body').first().append(newTabContent);
 
   // Activate button click
   html.find(".submenu-launch").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
   });
 
-  // Register the tab with Foundry's Tabs controller manually
-  const tabs = app._tabs[0]; // Get the first Tabs controller on the form
-  tabs.registerTab("ve-interact");
+  // Register the new tab with Foundry's Tabs controller manually
+  const tabs = app._tabs[0]; // Grab the first tab controller for TileConfig
+  tabs.registerTab(tabId);
 });
