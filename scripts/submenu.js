@@ -92,26 +92,26 @@ Hooks.on("ready", () => {
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
-  // Add the new tab button to the top
-  const tabButton = `<a class="item" data-tab="submenu-config"><i class="fas fa-tools"></i> Submenu</a>`;
-  const html = `
-    <div class="tab" data-tab="submenu-config">
-      <p>🛠️ Submenu Actions Configured: ${actions.length}</p>
-      <button type="button" class="submenu-launch"><i class="fas fa-cog"></i> Open Full Submenu Config</button>
-    </div>
-  `;
+  // Custom tab name (not used by Monk's Active Tile Triggers)
+  const tabId = "ve-submenu";
 
-  // Add the tab content section
+  // Render tab button with unique label
+  const tabButton = `<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i> VE Interact</a>`;
+  html.find(".sheet-tabs").append(tabButton);
+
+  // Create the tab content
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
   const submenuHtml = `
-    <div class="tab" data-tab="submenu">
+    <div class="tab" data-tab="${tabId}">
       <p>🛠️ Submenu Actions Configured: ${actions.length}</p>
-      <button type="button" class="submenu-launch"><i class="fas fa-cog"></i> Open Full Submenu Config</button>
+      <button type="button" class="submenu-launch">
+        <i class="fas fa-cog"></i> Open Full Config
+      </button>
     </div>
   `;
   html.find(".sheet-body").append(submenuHtml);
 
-  // Handle button click to open the full FormApplication
+  // Launch FormApplication
   html.find(".submenu-launch").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
   });
