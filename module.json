@@ -1,9 +1,9 @@
 {
-    "id": "ve-tiles-interactive-submenu",
-    "name": "ve-tiles-interactive-submenu",
-    "title": "Villagelder's Interactive Submenu",
-    "description": "Attach an interactive submenu to Active Tiles for 5e games.",
-    "version": "1.0.45",
+    "id": "ve-tiles-interactive",
+    "name": "ve-tiles-interactive",
+    "title": "Villagelder's Interactive",
+    "description": "Attach an player interactive submenu to Active Tiles for 5e games.",
+    "version": "1.0.46",
     "author": "Villagelder",
     "minimumCoreVersion": "12",
     "compatibleCoreVersion": "12",
@@ -11,8 +11,8 @@
     "scripts": ["scripts/submenu.js"],
     "styles": ["styles/submenu.css"],
     "packs": [],
-    "url": "https://github.com/villagelder/tiles-interactive-submenu",
-    "manifest": "https://raw.githubusercontent.com/villagelder/tiles-interactive-submenu/main/module.json",
-    "download": "https://github.com/villagelder/tiles-interactive-submenu/archive/refs/heads/main.zip"
+    "url": "https://github.com/villagelder/tiles-interactive",
+    "manifest": "https://raw.githubusercontent.com/villagelder/tiles-interactive/main/module.json",
+    "download": "https://github.com/villagelder/tiles-interactive/archive/refs/heads/main.zip"
   }
   

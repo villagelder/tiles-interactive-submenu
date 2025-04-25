@@ -93,30 +93,30 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
 
-  // Delay until DOM is fully rendered
-  setTimeout(() => {
-    const basicTab = html.find(`.tab[data-tab="basic"]`);
-    const footer = html.find("footer");
+  // Add a new tab button manually
+  const newTabButton = $(`<a class="item" data-tab="ve-interact"><i class="fas fa-tools"></i> VE Interact</a>`);
+  html.find('.sheet-tabs').append(newTabButton);
 
-    const configButton = $(`
+  // Add the tab content manually
+  const newTabContent = $(`
+    <div class="tab" data-tab="ve-interact">
       <div class="form-group">
-        <label>Interactive Submenu</label>
+        <h3>Interactive Submenu</h3>
+        <p>Actions Configured: ${actions.length}</p>
         <button type="button" class="submenu-launch">
-          <i class="fas fa-tools"></i> Open Submenu Config (${actions.length} actions)
+          <i class="fas fa-cog"></i> Open Submenu Config
         </button>
       </div>
-    `);
+    </div>
+  `);
+  html.find('.sheet-body').append(newTabContent);
 
-    if (basicTab.length) {
-      basicTab.append(configButton);
-    } else if (footer.length) {
-      footer.before(configButton);
-    } else {
-      html.append(configButton);
-    }
+  // Activate button click
+  html.find(".submenu-launch").on("click", () => {
+    new TileSubmenuConfig(app.object).render(true);
+  });
 
-    html.find(".submenu-launch").on("click", () => {
-      new TileSubmenuConfig(app.object).render(true);
-    });
-  }, 200); // 100ms is usually enough, but you can tweak it if needed
+  // Register the tab with Foundry's Tabs controller manually
+  const tabs = app._tabs[0]; // Get the first Tabs controller on the form
+  tabs.registerTab("ve-interact");
 });
