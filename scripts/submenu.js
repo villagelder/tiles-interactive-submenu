@@ -91,39 +91,48 @@ Hooks.on("ready", () => {
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
-  // Create a unique tab ID
   const tabId = "ve-submenu";
 
-  // Add a new tab button at the top (next to Basic, Overhead, Triggers)
-  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i>Interactive</a>`);
+  // Step 1: Add the new tab button
+  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i> VE Submenu</a>`);
   html.find('.sheet-tabs').first().append(newTabButton);
 
-  // Add the tab content container
+  // Step 2: Add the actual tab content to `.sheet-body`
+  const sheetBody = html.find('.sheet-body');
+  if (!sheetBody.length) {
+    console.warn("Could not find .sheet-body in TileConfig to inject new tab.");
+    return;
+  }
+
   const newTabContent = $(`
     <div class="tab" data-tab="${tabId}">
-      <div class="form-group">
+      <div class="form-group stacked">
         <h2>Tile Interactions</h2>
         <p>Manage the interactions players can perform on this tile.</p>
-  
-        <div id="ve-interactions-list">
+
+        <div class="form-header flexrow">
+          <label>Interactions</label>
+          <button type="button" class="ve-add-interaction">
+            <i class="fas fa-plus"></i> Add
+          </button>
+        </div>
+
+        <div id="ve-interactions-list" style="margin-top: 0.5em;">
           <p>No interactions configured yet.</p>
         </div>
-  
-        <button type="button" class="ve-add-interaction">
-          <i class="fas fa-plus"></i>Add Interaction
-        </button>
       </div>
     </div>
-
   `);
-  html.find('.sheet-body').first().append(newTabContent);
 
-  // Activate button click
-  html.find(".submenu-launch").on("click", () => {
+  sheetBody.append(newTabContent); // ✅ Important: Must append here
+
+  // Step 3: Register tab with Foundry
+  const tabs = app._tabs[0];
+  tabs.registerTab(tabId);
+
+  // Step 4: Add button handler
+  html.find(".ve-add-interaction").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
   });
-
-  // Register the new tab with Foundry's Tabs controller manually
-  const tabs = app._tabs[0]; // Grab the first tab controller for TileConfig
-  tabs.registerTab(tabId);
 });
+
