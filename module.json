@@ -3,7 +3,7 @@
     "name": "ve-tiles-interactive-submenu",
     "title": "Villagelder's Interactive Submenu",
     "description": "Attach an interactive submenu to Active Tiles for 5e games.",
-    "version": "1.0.44",
+    "version": "1.0.45",
     "author": "Villagelder",
     "minimumCoreVersion": "12",
     "compatibleCoreVersion": "12",

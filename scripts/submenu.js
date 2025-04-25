@@ -91,34 +91,32 @@ Hooks.on("ready", () => {
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
-  // Try multiple locations in case of modules moving layout
-  const basicTab = html.find(`.tab[data-tab="basic"]`);
-  const footer = html.find("footer");
-
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
 
-  const configButton = $(`
-    <div class="form-group">
-      <label>Interactive Submenu</label>
-      <button type="button" class="submenu-launch">
-        <i class="fas fa-tools"></i> Open Submenu Config (${actions.length} actions)
-      </button>
-    </div>
-  `);
+  // Delay until DOM is fully rendered
+  setTimeout(() => {
+    const basicTab = html.find(`.tab[data-tab="basic"]`);
+    const footer = html.find("footer");
 
-  // Append to the basic tab if available
-  if (basicTab.length) {
-    basicTab.append(configButton);
-  } else if (footer.length) {
-    // Fallback: above the footer
-    footer.before(configButton);
-  } else {
-    // Absolute fallback: anywhere we can
-    html.append(configButton);
-  }
+    const configButton = $(`
+      <div class="form-group">
+        <label>Interactive Submenu</label>
+        <button type="button" class="submenu-launch">
+          <i class="fas fa-tools"></i> Open Submenu Config (${actions.length} actions)
+        </button>
+      </div>
+    `);
 
-  html.find(".submenu-launch").on("click", () => {
-    new TileSubmenuConfig(app.object).render(true);
-  });
+    if (basicTab.length) {
+      basicTab.append(configButton);
+    } else if (footer.length) {
+      footer.before(configButton);
+    } else {
+      html.append(configButton);
+    }
+
+    html.find(".submenu-launch").on("click", () => {
+      new TileSubmenuConfig(app.object).render(true);
+    });
+  }, 200); // 100ms is usually enough, but you can tweak it if needed
 });
-
