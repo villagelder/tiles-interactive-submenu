@@ -1,0 +1,23 @@
+<form>
+    <div class="interactions-list">
+      {{#each interactions}}
+        {{> "modules/tiles-interactive-submenu/templates/interaction-card.html" this}}
+      {{/each}}
+    </div>
+  
+    <div class="form-group flexrow">
+      <button type="button" class="add-interaction">
+        <i class="fas fa-plus"></i> Add Interaction
+      </button>
+      <button type="button" class="delete-all">
+        <i class="fas fa-trash"></i> Delete All
+      </button>
+    </div>
+  
+    <footer class="sheet-footer flexrow">
+      <button type="submit" class="save-button">
+        <i class="fas fa-save"></i> Save Changes
+      </button>
+    </footer>
+  </form>
+  
