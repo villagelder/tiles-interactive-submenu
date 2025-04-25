@@ -114,7 +114,6 @@ Hooks.on("renderTileConfig", (app, html, data) => {
         </button>
       </div>
     </div>
-  `);
 
   `);
   html.find('.sheet-body').first().append(newTabContent);
