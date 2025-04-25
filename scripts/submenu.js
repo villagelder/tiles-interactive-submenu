@@ -93,52 +93,56 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 
   const tabId = "ve-submenu";
 
-  // Step 1: Add the new tab button
-  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i>Interactive</a>`);
-  html.find('.sheet-tabs').first().append(newTabButton);
+  // Delay until DOM is fully rendered (Monk, Levels, etc.)
+  setTimeout(() => {
+    const tabNav = html.find(".sheet-tabs").first();
+    const sheetBody = html.find(".sheet-body").first();
 
-  // Step 2: Add the actual tab content to `.sheet-body`
-  const sheetBody = html.find('.sheet-body');
-  if (!sheetBody.length) {
-    console.warn("Could not find .sheet-body in TileConfig to inject new tab.");
-    return;
-  }
+    // Safety: prevent double insert
+    if (sheetBody.find(`.tab[data-tab="${tabId}"]`).length) return;
 
-  const newTabContent = $(`
-    <div class="tab" data-tab="${tabId}">
-      <div class="form-group stacked">
-        <h2>Tile Interactions</h2>
-        <p>Manage the interactions players can perform on this tile.</p>
+    // Add the tab button at the top
+    const newTabButton = $(`
+      <a class="item" data-tab="${tabId}">
+        <i class="fas fa-tools"></i>Interactive
+      </a>
+    `);
+    tabNav.append(newTabButton);
 
-        <div class="form-header flexrow">
-          <label>Interactions</label>
-          <button type="button" class="ve-add-interaction">
-            <i class="fas fa-plus"></i> Add
-          </button>
-        </div>
+    // Add the tab content
+    const newTabContent = $(`
+      <div class="tab" data-tab="${tabId}">
+        <div class="form-group stacked">
+          <h2>Tile Interactions</h2>
+          <p>Manage the interactions players can perform on this tile.</p>
 
-        <div id="ve-interactions-list" style="margin-top: 0.5em;">
-          <p>No interactions configured yet.</p>
+          <div class="form-header flexrow">
+            <label>Interactions</label>
+            <button type="button" class="ve-add-interaction">
+              <i class="fas fa-plus"></i> Add
+            </button>
+          </div>
+
+          <div id="ve-interactions-list" style="margin-top: 0.5em;">
+            <p>No interactions configured yet.</p>
+          </div>
         </div>
       </div>
-    </div>
-  `);
+    `);
+    sheetBody.append(newTabContent);
 
-  sheetBody.append(newTabContent); // ✅ Important: Must append here
+    // Register the tab with Foundry's controller
+    const tabs = app._tabs?.[0];
+    if (tabs?.registerTab) {
+      tabs.registerTab(tabId);
+    }
 
-  // Step 3: Register tab with Foundry
-  const tabs = app._tabs[0];
-  tabs.registerTab(tabId);
-
-  // Step 4: Add button handler
-  html.find(".ve-add-interaction").on("click", () => {
-    new TileSubmenuConfig(app.object).render(true);
-  });
-
-  html.find(".ve-add-interaction").on("click", () => {
+    // Add button logic
+    html.find(".ve-add-interaction").on("click", () => {
       new TileSubmenuConfig(app.object).render(true);
     });
-  }, 100);
+  }, 100); // ← 100ms usually bypasses all module DOM churn
+});
 
 
   
