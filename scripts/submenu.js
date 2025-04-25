@@ -93,8 +93,13 @@ Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
   // Add the new tab button to the top
-  const tabButton = `<a class="item" data-tab="submenu"><i class="fas fa-tools"></i> Submenu</a>`;
-  html.find(".sheet-tabs").append(tabButton);
+  const tabButton = `<a class="item" data-tab="submenu-config"><i class="fas fa-tools"></i> Submenu</a>`;
+  const html = `
+    <div class="tab" data-tab="submenu-config">
+      <p>🛠️ Submenu Actions Configured: ${actions.length}</p>
+      <button type="button" class="submenu-launch"><i class="fas fa-cog"></i> Open Full Submenu Config</button>
+    </div>
+  `;
 
   // Add the tab content section
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
