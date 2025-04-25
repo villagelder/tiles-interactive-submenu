@@ -5,16 +5,16 @@ Hooks.on("renderTileHUD", (hud, html) => {
   if (!game.user.isGM) return;
 
   const toolsButton = $(`
-      <div class="control-icon ve-tools" title="Edit Tile Interactions">
-        <i class="fas fa-tools"></i>
-      </div>
-    `);
+    <div class="control-icon ve-tools" title="Edit Tile Interactions">
+      <i class="fas fa-tools"></i>
+    </div>
+  `);
 
   toolsButton.on("click", () => {
-    new TileInteractDialog(hud.object).render(true);
+    new TileInteractDialog(hud.object.document).render(true); // ✅ notice `.document`
   });
 
-  html.find(".left").append(toolsButton); // v12 tile HUD uses .left and .right columns
+  html.find(".left").append(toolsButton);
 });
 
 // The main interaction editing dialog
