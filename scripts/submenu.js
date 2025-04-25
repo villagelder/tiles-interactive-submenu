@@ -91,21 +91,31 @@ Hooks.on("ready", () => {
 Hooks.on("renderTileConfig", (app, html, data) => {
   if (!game.user.isGM) return;
 
+  // Try multiple locations in case of modules moving layout
+  const basicTab = html.find(`.tab[data-tab="basic"]`);
+  const footer = html.find("footer");
+
   const actions = app.object.getFlag("tiles-interactive-submenu", "actions") || [];
 
-  // Inject into the "Basic" tab (or any safe tab)
-  const container = html.find(`.tab[data-tab="basic"]`);
-  if (!container.length) return;
-
-  const btnHtml = `
+  const configButton = $(`
     <div class="form-group">
       <label>Interactive Submenu</label>
       <button type="button" class="submenu-launch">
         <i class="fas fa-tools"></i> Open Submenu Config (${actions.length} actions)
       </button>
     </div>
-  `;
-  container.append(btnHtml);
+  `);
+
+  // Append to the basic tab if available
+  if (basicTab.length) {
+    basicTab.append(configButton);
+  } else if (footer.length) {
+    // Fallback: above the footer
+    footer.before(configButton);
+  } else {
+    // Absolute fallback: anywhere we can
+    html.append(configButton);
+  }
 
   html.find(".submenu-launch").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
