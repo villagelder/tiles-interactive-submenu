@@ -19,11 +19,6 @@ Hooks.on("renderTileHUD", (hud, html) => {
 
 // The main interaction editing dialog
 class TileInteractDialog extends FormApplication {
-  constructor(object) {
-    super(object);
-    this.tile = object;
-  }
-
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       id: "tile-interact-dialog",
@@ -40,13 +35,13 @@ class TileInteractDialog extends FormApplication {
   getData() {
     return {
       interactions:
-        this.tile.getFlag("tiles-interactive-submenu", "interactions") || [],
+        this.object.getFlag("tiles-interactive-submenu", "interactions") || [],
     };
   }
 
   async _updateObject(event, formData) {
     const data = expandObject(formData);
-    await this.tile.setFlag(
+    await this.object.setFlag(
       "tiles-interactive-submenu",
       "interactions",
       data.interactions
@@ -56,16 +51,15 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Add a new interaction
     html.find(".add-interaction").click((ev) => {
       const interactions =
-        this.tile.getFlag("tiles-interactive-submenu", "interactions") || [];
+        this.object.getFlag("tiles-interactive-submenu", "interactions") || [];
       if (interactions.length >= 8) {
         ui.notifications.warn("Maximum 8 interactions allowed per tile.");
         return;
       }
-      interactions.push({ type: "" }); // Add a blank interaction
-      this.tile.setFlag(
+      interactions.push({ type: "" });
+      this.object.setFlag(
         "tiles-interactive-submenu",
         "interactions",
         interactions
@@ -73,21 +67,19 @@ class TileInteractDialog extends FormApplication {
       this.render();
     });
 
-    // Delete all interactions
     html.find(".delete-all").click((ev) => {
-      this.tile.unsetFlag("tiles-interactive-submenu", "interactions");
+      this.object.unsetFlag("tiles-interactive-submenu", "interactions");
       this.render();
     });
 
-    // Delete a single interaction card
     html.find(".delete-interaction").click((ev) => {
       const index = Number(
         ev.currentTarget.closest(".interaction-card").dataset.index
       );
       const interactions =
-        this.tile.getFlag("tiles-interactive-submenu", "interactions") || [];
-      interactions.splice(index, 1); // Remove at index
-      this.tile.setFlag(
+        this.object.getFlag("tiles-interactive-submenu", "interactions") || [];
+      interactions.splice(index, 1);
+      this.object.setFlag(
         "tiles-interactive-submenu",
         "interactions",
         interactions
