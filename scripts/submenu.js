@@ -58,4 +58,22 @@ Hooks.on("ready", () => {
       }
     });
   });
+
+  Hooks.on("getSceneControlButtons", controls => {
+    const tileControls = controls.find(c => c.name === "tiles");
+    if (!tileControls || !game.user.isGM) return;
+  
+    tileControls.tools.push({
+      name: "submenuConfig",
+      title: "Configure Tile Submenu",
+      icon: "fas fa-sliders-h",
+      visible: game.user.isGM,
+      onClick: () => {
+        const tile = canvas.tiles.controlled[0];
+        if (!tile) return ui.notifications.warn("Please select a tile first.");
+        new TileSubmenuConfig(tile).render(true);
+      }
+    });
+  });
+  
   
