@@ -100,15 +100,22 @@ Hooks.on("renderTileConfig", (app, html, data) => {
 
   // Add the tab content container
   const newTabContent = $(`
-    <div class="tab" data-tab="${tabId}">
-      <div class="form-group">
-        <h2>Tile Interactive Submenu</h2>
-        <p>Actions configured on this tile will be used for player interaction.</p>
-        <button type="button" class="submenu-launch">
-          <i class="fas fa-cog"></i> Configure Submenu Actions
-        </button>
+  <div class="tab" data-tab="${tabId}">
+    <div class="form-group">
+      <h2>Tile Interactions</h2>
+      <p>Manage the interactions players can perform on this tile.</p>
+
+      <div id="ve-interactions-list">
+        <p>No interactions configured yet.</p>
       </div>
+
+      <button type="button" class="ve-add-interaction">
+        <i class="fas fa-plus"></i> Add Interaction
+      </button>
     </div>
+  </div>
+`);
+
   `);
   html.find('.sheet-body').first().append(newTabContent);
 
