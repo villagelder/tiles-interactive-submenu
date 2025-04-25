@@ -9,7 +9,7 @@ class TileSubmenuConfig extends FormApplication {
       title: "Tile Submenu Configuration",
       id: "tile-submenu-config",
       template: "modules/tiles-interactive-submenu/templates/config.html",
-      width: 600,
+      width: 640,
       height: "auto",
     });
   }
@@ -138,7 +138,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
     }
 
     // Add button logic
-    html.find(".ve-add-interaction").on("click", () => {
+    newTabContent.find(".ve-add-interaction").on("click", () => {
       new TileSubmenuConfig(app.object).render(true);
     });
   }, 100); // ← 100ms usually bypasses all module DOM churn
