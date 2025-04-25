@@ -94,7 +94,7 @@ Hooks.on("renderTileConfig", (app, html, data) => {
   const tabId = "ve-submenu";
 
   // Step 1: Add the new tab button
-  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i> VE Submenu</a>`);
+  const newTabButton = $(`<a class="item" data-tab="${tabId}"><i class="fas fa-tools"></i>Interactive</a>`);
   html.find('.sheet-tabs').first().append(newTabButton);
 
   // Step 2: Add the actual tab content to `.sheet-body`
@@ -134,5 +134,13 @@ Hooks.on("renderTileConfig", (app, html, data) => {
   html.find(".ve-add-interaction").on("click", () => {
     new TileSubmenuConfig(app.object).render(true);
   });
-});
+
+  html.find(".ve-add-interaction").on("click", () => {
+      new TileSubmenuConfig(app.object).render(true);
+    });
+  }, 100);
+
+
+  
+
 
