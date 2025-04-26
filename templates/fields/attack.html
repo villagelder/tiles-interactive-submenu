@@ -31,19 +31,12 @@
   </div>
 
   <!-- Advanced Options -->
-  <details class="advanced-options">
+  <details>
     <summary><strong>Advanced Options</strong></summary>
 
-    <!-- Vulnerabilities -->
     <div class="form-group">
       <label>Vulnerabilities</label>
-      <div class="damage-tags vulnerabilities" data-type="vulnerabilities">
-        {{#each vulnerabilities}}
-          <span class="damage-tag" data-value="{{this}}" data-type="vulnerabilities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
+      <div class="damage-tags vulnerabilities"></div>
       <select class="damage-select" data-type="vulnerabilities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
@@ -52,16 +45,9 @@
       </select>
     </div>
 
-    <!-- Resistances -->
     <div class="form-group">
       <label>Resistances</label>
-      <div class="damage-tags resistances" data-type="resistances">
-        {{#each resistances}}
-          <span class="damage-tag" data-value="{{this}}" data-type="resistances">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
+      <div class="damage-tags resistances"></div>
       <select class="damage-select" data-type="resistances">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
@@ -70,16 +56,9 @@
       </select>
     </div>
 
-    <!-- Immunities -->
     <div class="form-group">
       <label>Immunities</label>
-      <div class="damage-tags immunities" data-type="immunities">
-        {{#each immunities}}
-          <span class="damage-tag" data-value="{{this}}" data-type="immunities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
+      <div class="damage-tags immunities"></div>
       <select class="damage-select" data-type="immunities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
@@ -87,7 +66,6 @@
         {{/each}}
       </select>
     </div>
-
   </details>
 
 </div>

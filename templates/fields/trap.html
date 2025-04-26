@@ -73,16 +73,10 @@
 
   <hr style="margin-top: 1em; margin-bottom: 1em;">
 
-  <!-- Condition Effects (multi-tag picker like Damage) -->
+  <!-- Applied Conditions -->
   <div class="form-group">
     <label>Applied Conditions</label>
-    <div class="condition-tags" data-type="conditions">
-      {{#each conditions}}
-        <span class="damage-tag" data-value="{{this}}" data-type="conditions">
-          {{capitalize this}} <a class="remove-tag">×</a>
-        </span>
-      {{/each}}
-    </div>
+    <div class="damage-tags conditions"></div>
     <select class="condition-select" data-type="conditions">
       <option value="">-- Select Condition --</option>
       {{#each (conditionsList)}}
