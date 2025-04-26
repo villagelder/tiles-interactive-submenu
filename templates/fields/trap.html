@@ -1,43 +1,105 @@
 <div class="trap-fields">
 
-  <!-- Detect DC and Disarm DC -->
-  <div class="trap-input">
-    <label for="detectDC">Detect DC</label>
-    <input id="detectDC" type="number" class="required-field" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
+  <!-- Detect DC and Disarm DC (Same Row) -->
+  <div class="flexrow trap-dc-row" style="margin-bottom: 0.75em;">
+    <div class="trap-input">
+      <label for="detectDC">Detect DC</label>
+      <input id="detectDC" type="number" class="required-field" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
+    </div>
+
+    <div class="trap-input">
+      <label for="disarmDC">Disarm DC</label>
+      <input id="disarmDC" type="number" class="required-field" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
+    </div>
   </div>
 
-  <div class="trap-input" style="margin-top: 0.25em;">
-    <label for="disarmDC">Disarm DC</label>
-    <input id="disarmDC" type="number" class="required-field" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
-  </div>
-
-  <div class="trap-input" style="margin-top: 0.75em;">
+  <!-- Trigger -->
+  <div class="trap-input" style="margin-top: 0.5em;">
     <label for="trigger">Trigger</label>
     <input id="trigger" type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
   </div>
 
-  <div class="trap-input" style="margin-top: 0.75em;">
-    <label for="damage">Damage</label>
-    <input id="damage" type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
+  <!-- Damage and Damage Type (Same Row) -->
+  <div class="flexrow trap-damage-row" style="margin-bottom: 0.75em; margin-top: 0.5em;">
+    <div class="trap-input">
+      <label for="damage">Damage</label>
+      <input id="damage" type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
+    </div>
+
+    <div class="trap-input">
+      <label for="damageType">Damage Type</label>
+      <select id="damageType" name="interactions.{{@../index}}.damageType">
+        <option value="">-- Select Damage Type --</option>
+        {{#each (damageTypes)}}
+          <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
+        {{/each}}
+      </select>
+    </div>
   </div>
 
-  <div class="trap-input">
-    <label for="damageType">Damage Type</label>
-    <select id="damageType" name="interactions.{{@../index}}.damageType">
-      <option value="">-- Select Damage Type --</option>
-      {{#each (damageTypes)}}
-        <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
+  <hr style="margin-top: 1em; margin-bottom: 1em;">
+
+  <!-- Saving Throw Section (Hidden if no SaveDC) -->
+  <div id="saving-throw-section" style="display: none;">
+
+    <div class="flexrow trap-save-row" style="margin-bottom: 0.75em;">
+      <div class="trap-input">
+        <label for="saveAbility">Save Ability</label>
+        <select id="saveAbility" name="interactions.{{@../index}}.saveAbility">
+          <option value="">-- Select Ability --</option>
+          {{#each (abilities)}}
+            <option value="{{this}}" {{#if (eq ../saveAbility this)}}selected{{/if}}>{{capitalize this}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="trap-input">
+        <label for="saveDC">Save DC</label>
+        <input id="saveDC" type="number" name="interactions.{{@../index}}.saveDC" value="{{saveDC}}" min="0" step="1" />
+      </div>
+    </div>
+
+    <div class="trap-input">
+      <label for="successEffect">Success Effect</label>
+      <input id="successEffect" type="text" name="interactions.{{@../index}}.successEffect" value="{{successEffect}}" placeholder="e.g. Half damage, no poison" />
+    </div>
+
+    <div class="trap-input">
+      <label for="failureEffect">Failure Effect</label>
+      <input id="failureEffect" type="text" name="interactions.{{@../index}}.failureEffect" value="{{failureEffect}}" placeholder="e.g. Full damage and poisoned" />
+    </div>
+
+  </div>
+
+  <hr style="margin-top: 1em; margin-bottom: 1em;">
+
+  <!-- Condition Effects (multi-tag picker like Damage) -->
+  <div class="form-group">
+    <label>Applied Conditions</label>
+    <div class="condition-tags" data-type="conditions">
+      {{#each conditions}}
+        <span class="damage-tag" data-value="{{this}}" data-type="conditions">
+          {{capitalize this}} <a class="remove-tag">×</a>
+        </span>
+      {{/each}}
+    </div>
+    <select class="condition-select" data-type="conditions">
+      <option value="">-- Select Condition --</option>
+      {{#each (conditionsList)}}
+        <option value="{{this}}">{{capitalize this}}</option>
       {{/each}}
     </select>
   </div>
 
   <hr style="margin-top: 1em; margin-bottom: 1em;">
 
+  <!-- Final Success Text -->
   <div class="trap-input">
     <label for="success">Success Text</label>
     <input id="success" type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
   </div>
 
+  <!-- Final Failure Text -->
   <div class="trap-input">
     <label for="failure">Failure Text</label>
     <input id="failure" type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />

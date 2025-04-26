@@ -28,6 +28,13 @@
     padding: 0;
     margin-left: 0.5em;
   }
+
+  .condition-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em;
+    margin-bottom: 0.5em;
+  }
   
   .damage-tags {
     display: flex;

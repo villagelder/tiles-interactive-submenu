@@ -154,6 +154,22 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
+    // === Toggle Saving Throw section live ===
+    html.find('input[name^="interactions"]').on("input", (event) => {
+      const saveDCInput = html.find(
+        'input[name^="interactions"][name$=".saveDC"]'
+      );
+      const saveSection = html.find("#saving-throw-section");
+
+      const saveDCValue = parseInt(saveDCInput.val() || "0");
+
+      if (saveDCValue > 0) {
+        saveSection.slideDown(200);
+      } else {
+        saveSection.slideUp(200);
+      }
+    });
+
     html.find(".field-invulnerable").change((ev) => {
       const checkbox = ev.currentTarget;
       const row = checkbox.closest(".form-group");
@@ -294,6 +310,36 @@ class TileInteractDialog extends FormApplication {
     );
   }
 }
+
+// List of all 5e ability saves
+Handlebars.registerHelper("abilities", () => [
+  "strength",
+  "dexterity",
+  "constitution",
+  "intelligence",
+  "wisdom",
+  "charisma",
+]);
+
+// List of all 5e Conditions
+Handlebars.registerHelper("conditionsList", () => [
+  "blinded",
+  "charmed",
+  "deafened",
+  "fatigued",
+  "frightened",
+  "grappled",
+  "incapacitated",
+  "invisible",
+  "paralyzed",
+  "petrified",
+  "poisoned",
+  "prone",
+  "restrained",
+  "stunned",
+  "unconscious",
+  "exhaustion",
+]);
 
 Hooks.once("init", () => {
   Handlebars.registerHelper("eq", function (a, b) {
