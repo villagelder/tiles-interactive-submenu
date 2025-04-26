@@ -1,26 +1,24 @@
 <div class="trap-fields">
 
   <!-- Detect DC and Disarm DC -->
-  <div class="form-group flexrow" style="align-items: center; gap: 0.75em; margin-bottom: 0.75em;">
-    <div class="flexcol" style="flex: 1;">
+  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
+    <div style="flex: 1;">
       <label>Detect DC</label>
-      <input type="number" class="field-detectdc" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1">
+      <input type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
     </div>
-
-    <div class="flexcol" style="flex: 1;">
+    <div style="flex: 1; margin-left: 1em;">
       <label>Disarm DC</label>
-      <input type="number" class="field-disarmdc" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1">
+      <input type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
     </div>
   </div>
 
   <!-- Damage and Damage Type -->
-  <div class="form-group flexrow" style="align-items: center; gap: 0.75em; margin-bottom: 0.75em;">
-    <div class="flexcol" style="flex: 1;">
+  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
+    <div style="flex: 1;">
       <label>Damage</label>
-      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6">
+      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
     </div>
-
-    <div class="flexcol" style="flex: 1;">
+    <div style="flex: 1; margin-left: 1em;">
       <label>Damage Type</label>
       <select name="interactions.{{@../index}}.damageType">
         <option value="">-- Select Damage Type --</option>
@@ -32,29 +30,33 @@
   </div>
 
   <!-- Trigger -->
-  <div class="form-group flexcol" style="margin-bottom: 0.75em;">
+  <div class="form-group" style="margin-bottom: 1em;">
     <label>Trigger</label>
-    <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate">
+    <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
   </div>
 
-  <hr style="margin: 1em 0;">
+  <hr style="margin: 1em 0;" />
 
   <!-- Applied Conditions -->
-  <div class="form-group flexcol" style="margin-bottom: 0.75em;">
-    <label>Applied Conditions</label>
-    <div class="damage-tags conditions" style="margin: 0.5em 0;"></div>
-    <select class="condition-select" data-type="conditions">
-      <option value="">-- Select Condition --</option>
-      {{#each (conditionsList)}}
-        <option value="{{this}}">{{capitalize this}}</option>
-      {{/each}}
-    </select>
+  <div class="form-group flexrow" style="align-items: center; margin-bottom: 1em;">
+    <div style="flex: 2;">
+      <label>Applied Conditions</label>
+      <div class="damage-tags conditions" style="margin-top: 0.5em;"></div>
+    </div>
+    <div style="flex: 1; margin-left: 1em;">
+      <select class="condition-select" data-type="conditions">
+        <option value="">-- Select Condition --</option>
+        {{#each (conditionsList)}}
+          <option value="{{this}}">{{capitalize this}}</option>
+        {{/each}}
+      </select>
+    </div>
   </div>
 
-  <hr style="margin: 1em 0;">
+  <hr style="margin: 1em 0;" />
 
   <!-- Test Trap Button -->
-  <div class="form-group flexrow" style="justify-content: flex-end;">
+  <div class="form-group flexrow" style="justify-content: center;">
     <button type="button" class="test-trap-button">
       <i class="fas fa-dice-d20"></i> Test Trap
     </button>
