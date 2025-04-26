@@ -97,10 +97,38 @@ class TileInteractDialog extends FormApplication {
 
   async _updateObject(event, formData) {
     const data = expandObject(formData);
+    const interactions = data.interactions || [];
+
+    for (let i = 0; i < interactions.length; i++) {
+      const interaction = interactions[i];
+
+      if (interaction.type === "attack") {
+        if (!interaction.invulnerable) {
+          // Only validate if NOT invulnerable
+          const ac = interaction.ac;
+          const hp = interaction.hp;
+
+          if (
+            !Number.isInteger(ac) ||
+            ac < 0 ||
+            !Number.isInteger(hp) ||
+            hp < 0
+          ) {
+            ui.notifications.error(
+              `Interaction ${i + 1}: AC and HP must be positive integers.`
+            );
+            throw new Error(
+              "Validation failed: AC/HP must be positive integers."
+            );
+          }
+        }
+      }
+    }
+
     await this.object.setFlag(
       "ve-tiles-interactive-submenu",
       "interactions",
-      data.interactions
+      interactions
     );
   }
 
@@ -124,6 +152,17 @@ class TileInteractDialog extends FormApplication {
         .then(() => {
           this.render();
         });
+    });
+
+    html.find(".field-invulnerable").change((ev) => {
+      const checkbox = ev.currentTarget;
+      const row = checkbox.closest(".form-group");
+      const acField = row.querySelector(".field-ac");
+      const hpField = row.querySelector(".field-hp");
+
+      const disabled = checkbox.checked;
+      acField.disabled = disabled;
+      hpField.disabled = disabled;
     });
 
     // === Handle adding an interaction ===
