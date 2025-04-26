@@ -94,14 +94,14 @@
     color: #555;
     pointer-events: none;
   }
-  
 
-  .ac-hp-row {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    margin-top: 0.5em;
-  }
+.trap-dc-row,
+.trap-damage-row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-top: 0.5em;
+}
 
   .ve-tools {
     margin-top: 5px;

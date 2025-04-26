@@ -1,34 +1,53 @@
 <div class="trap-fields">
-    <div class="form-group">
-      <label>Trap Description</label>
-      <input type="text" name="interactions.{{@../index}}.description" value="{{description}}" />
+
+  <!-- Detect DC and Disarm DC -->
+  <div class="flexrow trap-dc-row" style="margin-bottom: 0.5em;">
+    <div class="flexrow field-group">
+      <label for="detectDC">Detect DC</label>
+      <input id="detectDC" type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
     </div>
-  
-    <div class="form-group">
-      <label>Save DC</label>
-      <input type="number" name="interactions.{{@../index}}.dc" value="{{dc}}" />
-    </div>
-  
-    <div class="form-group">
-      <label>Damage Expression</label>
-      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 5d10" />
-    </div>
-  
-    <div class="form-group">
-      <label>Damage Type</label>
-      <input type="text" name="interactions.{{@../index}}.damageType" value="{{damageType}}" placeholder="e.g. fire, piercing" />
-    </div>
-  
-    <hr>
-  
-    <div class="form-group">
-      <label>Success Text</label>
-      <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
-    </div>
-  
-    <div class="form-group">
-      <label>Failure Text</label>
-      <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+
+    <div class="flexrow field-group">
+      <label for="disarmDC">Disarm DC</label>
+      <input id="disarmDC" type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
     </div>
   </div>
-  
+
+  <!-- Trigger -->
+  <div class="form-group" style="margin-bottom: 0.75em;">
+    <label>Trigger</label>
+    <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
+  </div>
+
+  <!-- Damage and Damage Type -->
+  <div class="flexrow trap-damage-row" style="margin-bottom: 0.75em;">
+    <div class="flexrow field-group">
+      <label for="damage">Damage</label>
+      <input id="damage" type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
+    </div>
+
+    <div class="flexrow field-group">
+      <label for="damageType">Damage Type</label>
+      <select id="damageType" name="interactions.{{@../index}}.damageType">
+        <option value="">-- Select Damage Type --</option>
+        {{#each (damageTypes)}}
+          <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Success and Failure Text -->
+  <div class="form-group">
+    <label>Success Text</label>
+    <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+  </div>
+
+  <div class="form-group">
+    <label>Failure Text</label>
+    <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+  </div>
+
+</div>
