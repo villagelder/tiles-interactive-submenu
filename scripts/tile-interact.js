@@ -11,43 +11,18 @@ Hooks.on("renderTileHUD", (hud, html) => {
   `);
 
   toolsButton.on("click", () => {
-    new TileInteractDialog(hud.object.document).render(true); // ✅ notice `.document`
+    new TileInteractDialog(hud.object.document).render(true);
   });
 
   html.find(".left").append(toolsButton);
 });
 
+// --- Initialization ---
 Hooks.once("init", async () => {
   console.log("🛠️ VE Tiles Interactive Submenu | Initializing...");
 
-  // Register helper for equality checking
-  Handlebars.registerHelper("eq", function (a, b) {
-    return a === b;
-  });
-
-  // List of all partial templates
-  const partials = [
-    "templates/interaction-card.html",
-    "templates/fields/attack.html",
-    "templates/fields/saving-throw.html",
-    "templates/fields/skill-check.html",
-    "templates/fields/unlock.html",
-    "templates/fields/trap.html",
-    "templates/fields/spell-target.html",
-  ];
-
-  // Fetch and register each partial
-  for (let path of partials) {
-    const fullPath = `modules/ve-tiles-interactive-submenu/${path}`;
-    const response = await fetch(fullPath);
-    if (!response.ok) {
-      console.error(`Failed to load Handlebars partial: ${fullPath}`);
-      continue;
-    }
-    const templateContent = await response.text();
-    Handlebars.registerPartial(fullPath, templateContent);
-    console.log(`✅ Registered Handlebars partial: ${fullPath}`);
-  }
+  // Register Handlebars helpers
+  Handlebars.registerHelper("eq", (a, b) => a === b);
 
   Handlebars.registerHelper("damageTypes", () => [
     "acid",
@@ -65,14 +40,64 @@ Hooks.once("init", async () => {
     "thunder",
   ]);
 
-  // Optional: Capitalize helper
+  Handlebars.registerHelper("abilities", () => [
+    "strength",
+    "dexterity",
+    "constitution",
+    "intelligence",
+    "wisdom",
+    "charisma",
+  ]);
+
+  Handlebars.registerHelper("conditionsList", () => [
+    "blinded",
+    "charmed",
+    "deafened",
+    "fatigued",
+    "frightened",
+    "grappled",
+    "incapacitated",
+    "invisible",
+    "paralyzed",
+    "petrified",
+    "poisoned",
+    "prone",
+    "restrained",
+    "stunned",
+    "unconscious",
+    "exhaustion",
+  ]);
+
   Handlebars.registerHelper("capitalize", (text) => {
     if (typeof text !== "string") return "";
     return text.charAt(0).toUpperCase() + text.slice(1);
   });
+
+  // Preload partials
+  const partials = [
+    "templates/interaction-card.html",
+    "templates/fields/attack.html",
+    "templates/fields/saving-throw.html",
+    "templates/fields/skill-check.html",
+    "templates/fields/unlock.html",
+    "templates/fields/trap.html",
+    "templates/fields/spell-target.html",
+  ];
+
+  for (let path of partials) {
+    const fullPath = `modules/ve-tiles-interactive-submenu/${path}`;
+    const response = await fetch(fullPath);
+    if (!response.ok) {
+      console.error(`Failed to load Handlebars partial: ${fullPath}`);
+      continue;
+    }
+    const templateContent = await response.text();
+    Handlebars.registerPartial(fullPath, templateContent);
+    console.log(`✅ Registered Handlebars partial: ${fullPath}`);
+  }
 });
 
-// The main interaction editing dialog
+// --- Tile Interact Dialog ---
 class TileInteractDialog extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -104,10 +129,8 @@ class TileInteractDialog extends FormApplication {
 
       if (interaction.type === "attack") {
         if (!interaction.invulnerable) {
-          // Only validate if NOT invulnerable
           const ac = interaction.ac;
           const hp = interaction.hp;
-
           if (
             !Number.isInteger(ac) ||
             ac < 0 ||
@@ -135,18 +158,17 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // === Handle selecting an interaction type (rerender on change) ===
+    // --- Handle Interaction Type change
     html.find(".interaction-type").change((ev) => {
       const select = ev.currentTarget;
       const index = Number(select.closest(".interaction-card").dataset.index);
       const selectedType = select.value;
-
       const interactions =
         this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
         [];
+
       interactions[index].type = selectedType;
 
-      // Save and re-render
       this.object
         .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
         .then(() => {
@@ -154,7 +176,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // === Toggle Saving Throw section live ===
+    // --- Toggle Saving Throw Section
     html.find('input[name^="interactions"]').on("input", (event) => {
       const saveDCInput = html.find(
         'input[name^="interactions"][name$=".saveDC"]'
@@ -170,6 +192,7 @@ class TileInteractDialog extends FormApplication {
       }
     });
 
+    // --- Invulnerable checkbox disables AC/HP
     html.find(".field-invulnerable").change((ev) => {
       const checkbox = ev.currentTarget;
       const row = checkbox.closest(".form-group");
@@ -180,17 +203,12 @@ class TileInteractDialog extends FormApplication {
       acField.disabled = disabled;
       hpField.disabled = disabled;
 
-      if (disabled) {
-        acField.classList.add("disabled-field");
-        hpField.classList.add("disabled-field");
-      } else {
-        acField.classList.remove("disabled-field");
-        hpField.classList.remove("disabled-field");
-      }
+      acField.classList.toggle("disabled-field", disabled);
+      hpField.classList.toggle("disabled-field", disabled);
     });
 
-    // === Handle adding an interaction ===
-    html.find(".add-interaction").click((ev) => {
+    // --- Add Interaction
+    html.find(".add-interaction").click(() => {
       const interactions =
         this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
         [];
@@ -206,7 +224,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // === Handle deleting all interactions ===
+    // --- Delete All Interactions
     html.find(".delete-all").click(() => {
       this.object
         .unsetFlag("ve-tiles-interactive-submenu", "interactions")
@@ -215,7 +233,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // === Handle deleting a single interaction card ===
+    // --- Delete Single Interaction
     html.find(".delete-interaction").click((ev) => {
       const index = Number(
         ev.currentTarget.closest(".interaction-card").dataset.index
@@ -231,7 +249,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // === Handle selecting a Damage Type from dropdowns (vulnerabilities, resistances, immunities) ===
+    // --- Damage Type Selection (Vulnerabilities, Resistances, Immunities)
     html.find(".damage-select").change((ev) => {
       const select = ev.currentTarget;
       const type = select.dataset.type;
@@ -239,48 +257,57 @@ class TileInteractDialog extends FormApplication {
       if (!value) return;
 
       const tagContainer = html.find(`.damage-tags.${type}`);
-      const newTag = $(`
+      const tag = $(`
         <span class="damage-tag" data-value="${value}" data-type="${type}">
-          ${value.charAt(0).toUpperCase() + value.slice(1)}
+          ${capitalize(value)}
           <a class="remove-tag" title="Remove">×</a>
         </span>
       `);
-      tagContainer.append(newTag);
+      tagContainer.append(tag);
 
-      // Remove selected option from dropdown
       select.querySelector(`option[value="${value}"]`).remove();
       select.value = "";
 
       this._saveDamageSelections(html);
     });
 
-    // === Handle removing a Damage Type tag and reinserting alphabetically ===
     html.on("click", ".remove-tag", (ev) => {
-      const tag = ev.currentTarget.parentElement;
-      const value = tag.dataset.value;
-      const type = tag.dataset.type;
-      const select = html.find(`select.damage-select[data-type="${type}"]`);
+      const tag = $(ev.currentTarget).closest(".damage-tag");
+      const value = tag.data("value");
+      const type = tag.data("type");
+      const select = html.find(`select.${type}-select`);
 
-      // Re-add option to dropdown
-      const option = document.createElement("option");
-      option.value = value;
-      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
+      const option = $(
+        `<option value="${value}">${capitalize(value)}</option>`
+      );
       select.append(option);
 
-      // Sort options alphabetically (ignore first placeholder option)
-      const options = Array.from(select[0].options).slice(1);
-      options.sort((a, b) => a.text.localeCompare(b.text));
-
-      while (select[0].options.length > 1) select[0].remove(1);
-      for (const opt of options) {
-        select[0].add(opt);
-      }
-
-      // Remove the tag visually
+      this._sortSelect(select);
       tag.remove();
 
-      // Save updated damage selections
       this._saveDamageSelections(html);
+    });
+
+    // --- Condition Tags Behavior
+    html.find(".condition-select").on("change", (event) => {
+      const select = $(event.currentTarget);
+      const value = select.val();
+      if (!value) return;
+
+      const type = select.data("type");
+      const tagContainer = html.find(`.${type}-tags`);
+      const tag = $(`
+        <span class="damage-tag" data-value="${value}" data-type="${type}">
+          ${capitalize(value)}
+          <a class="remove-tag">×</a>
+        </span>
+      `);
+      tagContainer.append(tag);
+
+      select.find(`option[value="${value}"]`).remove();
+      select.val("");
+
+      this._sortSelect(select);
     });
   }
 
@@ -309,40 +336,16 @@ class TileInteractDialog extends FormApplication {
       interactions
     );
   }
+
+  _sortSelect(select) {
+    const options = select
+      .find("option")
+      .toArray()
+      .sort((a, b) => {
+        if (!a.value) return -1;
+        if (!b.value) return 1;
+        return a.text.localeCompare(b.text);
+      });
+    select.empty().append(options);
+  }
 }
-
-// List of all 5e ability saves
-Handlebars.registerHelper("abilities", () => [
-  "strength",
-  "dexterity",
-  "constitution",
-  "intelligence",
-  "wisdom",
-  "charisma",
-]);
-
-// List of all 5e Conditions
-Handlebars.registerHelper("conditionsList", () => [
-  "blinded",
-  "charmed",
-  "deafened",
-  "fatigued",
-  "frightened",
-  "grappled",
-  "incapacitated",
-  "invisible",
-  "paralyzed",
-  "petrified",
-  "poisoned",
-  "prone",
-  "restrained",
-  "stunned",
-  "unconscious",
-  "exhaustion",
-]);
-
-Hooks.once("init", () => {
-  Handlebars.registerHelper("eq", function (a, b) {
-    return a === b;
-  });
-});
