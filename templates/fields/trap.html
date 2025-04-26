@@ -1,28 +1,32 @@
 <div class="trap-fields">
 
   <!-- Detect DC and Disarm DC -->
-  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
+  <div class="form-group flexrow" style="align-items: center; gap: 1em; margin-bottom: 0.75em;">
+    <div class="flexcol" style="flex: 1;">
       <label>Detect DC</label>
-      <input type="number" class="field-detectdc"name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1">
-  
+      <input type="number" class="field-detectdc" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1">
+    </div>
+
+    <div class="flexcol" style="flex: 1;">
       <label>Disarm DC</label>
       <input type="number" class="field-disarmdc" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1">
+    </div>
   </div>
 
   <!-- Trigger -->
-  <div class="form-group">
+  <div class="form-group flexcol" style="margin-bottom: 0.75em;">
     <label>Trigger</label>
     <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate">
   </div>
 
   <!-- Damage and Damage Type -->
-  <div class="flexrow" style="margin-bottom: 0.75em;">
-    <div style="flex: 1;">
+  <div class="form-group flexrow" style="align-items: center; gap: 1em; margin-bottom: 0.75em;">
+    <div class="flexcol" style="flex: 1;">
       <label>Damage</label>
       <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6">
     </div>
 
-    <div style="flex: 1;">
+    <div class="flexcol" style="flex: 1;">
       <label>Damage Type</label>
       <select name="interactions.{{@../index}}.damageType">
         <option value="">-- Select Damage Type --</option>
@@ -36,7 +40,7 @@
   <hr style="margin: 1em 0;">
 
   <!-- Applied Conditions -->
-  <div class="form-group">
+  <div class="form-group flexcol">
     <label>Applied Conditions</label>
     <div class="damage-tags conditions"></div>
     <select class="condition-select" data-type="conditions">
@@ -49,10 +53,11 @@
 
   <hr style="margin: 1em 0;">
 
-<div class="form-group flexrow" style="justify-content: flex-end;">
-  <button type="button" class="test-trap-button">
-    <i class="fas fa-dice-d20"></i> Test Trap
-  </button>
-</div>
+  <!-- Test Trap Button -->
+  <div class="form-group flexrow" style="justify-content: flex-end;">
+    <button type="button" class="test-trap-button">
+      <i class="fas fa-dice-d20"></i> Test Trap
+    </button>
+  </div>
 
 </div>
