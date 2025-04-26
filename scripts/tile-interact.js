@@ -107,53 +107,7 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.on("click", ".remove-tag", (ev) => {
-      const tag = ev.currentTarget.parentElement;
-      const value = tag.dataset.value;
-      const type = tag.dataset.type;
-      const select = html.find(`select.damage-select[data-type="${type}"]`);
-
-      // Re-add option to dropdown
-      const option = document.createElement("option");
-      option.value = value;
-      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
-      select.append(option);
-
-      const options = Array.from(select[0].options).slice(1); // ignore the first "-- Select Damage Type --"
-      options.sort((a, b) => a.text.localeCompare(b.text));
-
-      // Clear and re-add sorted
-      while (select[0].options.length > 1) select[0].remove(1); // Remove all except first placeholder
-      for (const opt of options) {
-        select[0].add(opt);
-      }
-
-      // Remove tag
-      tag.remove();
-
-      // Update flags
-      this._saveDamageSelections(html);
-    });
-
-    // Handle removing a damage type tag
-    html.on("click", ".remove-tag", (ev) => {
-      const tag = ev.currentTarget.parentElement;
-      const value = tag.dataset.value;
-      const type = tag.dataset.type;
-      const select = html.find(`select.damage-select[data-type="${type}"]`);
-
-      // Re-add option to dropdown
-      const option = document.createElement("option");
-      option.value = value;
-      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
-      select.append(option);
-
-      tag.remove();
-
-      this._saveDamageSelections(html);
-    });
-
-    // Re-render the app when an interaction type is changed
+    // === Handle selecting an interaction type (rerender on change) ===
     html.find(".interaction-type").change((ev) => {
       const select = ev.currentTarget;
       const index = Number(select.closest(".interaction-card").dataset.index);
@@ -172,7 +126,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // Add interaction
+    // === Handle adding an interaction ===
     html.find(".add-interaction").click((ev) => {
       const interactions =
         this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
@@ -189,7 +143,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // Delete all
+    // === Handle deleting all interactions ===
     html.find(".delete-all").click(() => {
       this.object
         .unsetFlag("ve-tiles-interactive-submenu", "interactions")
@@ -198,7 +152,7 @@ class TileInteractDialog extends FormApplication {
         });
     });
 
-    // Delete a single card
+    // === Handle deleting a single interaction card ===
     html.find(".delete-interaction").click((ev) => {
       const index = Number(
         ev.currentTarget.closest(".interaction-card").dataset.index
@@ -212,6 +166,58 @@ class TileInteractDialog extends FormApplication {
         .then(() => {
           this.render();
         });
+    });
+
+    // === Handle selecting a Damage Type from dropdowns (vulnerabilities, resistances, immunities) ===
+    html.find(".damage-select").change((ev) => {
+      const select = ev.currentTarget;
+      const type = select.dataset.type;
+      const value = select.value;
+      if (!value) return;
+
+      const tagContainer = html.find(`.damage-tags.${type}`);
+      const newTag = $(`
+        <span class="damage-tag" data-value="${value}" data-type="${type}">
+          ${value.charAt(0).toUpperCase() + value.slice(1)}
+          <a class="remove-tag" title="Remove">×</a>
+        </span>
+      `);
+      tagContainer.append(newTag);
+
+      // Remove selected option from dropdown
+      select.querySelector(`option[value="${value}"]`).remove();
+      select.value = "";
+
+      this._saveDamageSelections(html);
+    });
+
+    // === Handle removing a Damage Type tag and reinserting alphabetically ===
+    html.on("click", ".remove-tag", (ev) => {
+      const tag = ev.currentTarget.parentElement;
+      const value = tag.dataset.value;
+      const type = tag.dataset.type;
+      const select = html.find(`select.damage-select[data-type="${type}"]`);
+
+      // Re-add option to dropdown
+      const option = document.createElement("option");
+      option.value = value;
+      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
+      select.append(option);
+
+      // Sort options alphabetically (ignore first placeholder option)
+      const options = Array.from(select[0].options).slice(1);
+      options.sort((a, b) => a.text.localeCompare(b.text));
+
+      while (select[0].options.length > 1) select[0].remove(1);
+      for (const opt of options) {
+        select[0].add(opt);
+      }
+
+      // Remove the tag visually
+      tag.remove();
+
+      // Save updated damage selections
+      this._saveDamageSelections(html);
     });
   }
 
