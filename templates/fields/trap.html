@@ -1,43 +1,41 @@
 <div class="trap-fields">
 
-  <!-- Detect DC and Disarm DC -->
-  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
-      <label>Detect DC</label>
-      <input type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
-    
-      <label>Disarm DC</label>
-      <input type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
+  <!-- Detect DC and Disarm DC Row -->
+  <div class="form-group trap-dc-row">
+    <label for="detectDC">Detect DC</label>
+    <input type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
+
+    <label for="disarmDC" style="margin-left: 1em;">Disarm DC</label>
+    <input type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
   </div>
 
-  <!-- Damage and Damage Type -->
-  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
-      <label>Damage</label>
-      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
-    
-      <label>Damage Type</label>
-      <select name="interactions.{{@../index}}.damageType">
-        <option value="">-- Select Damage Type --</option>
-        {{#each (damageTypes)}}
-          <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
-        {{/each}}
-      </select>
+  <!-- Damage and Damage Type Row -->
+  <div class="form-group trap-damage-row">
+    <label for="damage">Damage</label>
+    <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
+
+    <label for="damageType" style="margin-left: 1em;">Damage Type</label>
+    <select name="interactions.{{@../index}}.damageType">
+      <option value="">-- Select Damage Type --</option>
+      {{#each (damageTypes)}}
+        <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
+      {{/each}}
+    </select>
   </div>
 
   <!-- Trigger -->
-  <div class="form-group" style="margin-bottom: 1em;">
-    <label>Trigger</label>
+  <div class="form-group trap-input">
+    <label for="trigger">Trigger</label>
     <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
   </div>
 
   <hr style="margin: 1em 0;" />
 
   <!-- Applied Conditions -->
-  <div class="form-group flexrow" style="align-items: center; margin-bottom: 1em;">
-    <div style="flex: 2;">
-      <label>Applied Conditions</label>
-      <div class="damage-tags conditions" style="margin-top: 0.5em;"></div>
-    </div>
-    <div style="flex: 1; margin-left: 1em;">
+  <div class="form-group trap-input">
+    <label>Applied Conditions</label>
+    <div style="flex: 1;">
+      <div class="damage-tags conditions" style="margin-bottom: 0.5em;"></div>
       <select class="condition-select" data-type="conditions">
         <option value="">-- Select Condition --</option>
         {{#each (conditionsList)}}
