@@ -7,10 +7,7 @@
 
     <label for="disarmDC" style="margin-left: 1em;">Disarm DC</label>
     <input type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
-  </div>
-
-  <!-- Damage and Damage Type Row -->
-  <div class="form-group trap-damage-row">
+  
     <label for="damage">Damage</label>
     <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
 
@@ -20,7 +17,7 @@
       {{#each (damageTypes)}}
         <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
       {{/each}}
-    </select>
+    </select> 
   </div>
 
   <!-- Trigger -->
