@@ -107,25 +107,31 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find(".damage-select").change((ev) => {
-      const select = ev.currentTarget;
-      const type = select.dataset.type;
-      const value = select.value;
-      if (!value) return;
+    html.on("click", ".remove-tag", (ev) => {
+      const tag = ev.currentTarget.parentElement;
+      const value = tag.dataset.value;
+      const type = tag.dataset.type;
+      const select = html.find(`select.damage-select[data-type="${type}"]`);
 
-      const tagContainer = html.find(`.damage-tags.${type}`);
-      const newTag = $(`
-        <span class="damage-tag" data-value="${value}" data-type="${type}">
-          ${value.charAt(0).toUpperCase() + value.slice(1)}
-          <a class="remove-tag" title="Remove">×</a>
-        </span>
-      `);
-      tagContainer.append(newTag);
+      // Re-add option to dropdown
+      const option = document.createElement("option");
+      option.value = value;
+      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
+      select.append(option);
 
-      // Remove selected option from dropdown
-      select.querySelector(`option[value="${value}"]`).remove();
-      select.value = "";
+      const options = Array.from(select[0].options).slice(1); // ignore the first "-- Select Damage Type --"
+      options.sort((a, b) => a.text.localeCompare(b.text));
 
+      // Clear and re-add sorted
+      while (select[0].options.length > 1) select[0].remove(1); // Remove all except first placeholder
+      for (const opt of options) {
+        select[0].add(opt);
+      }
+
+      // Remove tag
+      tag.remove();
+
+      // Update flags
       this._saveDamageSelections(html);
     });
 
