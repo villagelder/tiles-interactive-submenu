@@ -1,0 +1,42 @@
+<div class="saving-throw-fields">
+    <div class="form-group">
+      <label>Ability Type</label>
+      <select name="interactions.{{@../index}}.ability">
+        <option value="">-- Select Ability --</option>
+        <option value="str">Strength</option>
+        <option value="dex">Dexterity</option>
+        <option value="con">Constitution</option>
+        <option value="int">Intelligence</option>
+        <option value="wis">Wisdom</option>
+        <option value="cha">Charisma</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label>Save DC</label>
+      <input type="number" name="interactions.{{@../index}}.dc" value="{{dc}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Damage Expression (optional)</label>
+      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 3d6" />
+    </div>
+  
+    <div class="form-group">
+      <label>Conditions Applied (optional)</label>
+      <input type="text" name="interactions.{{@../index}}.conditions" value="{{conditions}}" placeholder="e.g. prone, blinded" />
+    </div>
+  
+    <hr>
+  
+    <div class="form-group">
+      <label>Success Text</label>
+      <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Failure Text</label>
+      <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+    </div>
+  </div>
+  

@@ -1,0 +1,34 @@
+<div class="spell-target-fields">
+    <div class="form-group">
+      <label>Spell or Effect Name</label>
+      <input type="text" name="interactions.{{@../index}}.spellName" value="{{spellName}}" placeholder="e.g. Arcane Lock, Fireball" />
+    </div>
+  
+    <div class="form-group">
+      <label>Spell DC (if applicable)</label>
+      <input type="number" name="interactions.{{@../index}}.spellDC" value="{{spellDC}}" placeholder="Optional Save DC" />
+    </div>
+  
+    <div class="form-group">
+      <label>Special Effect Description</label>
+      <textarea name="interactions.{{@../index}}.effectDescription" rows="3" placeholder="Describe what happens when spell succeeds.">{{effectDescription}}</textarea>
+    </div>
+  
+    <div class="form-group">
+      <label>Linked Interaction (Optional)</label>
+      <input type="text" name="interactions.{{@../index}}.linkedInteraction" value="{{linkedInteraction}}" placeholder="Enter ID or Label of related interaction" />
+    </div>
+  
+    <hr>
+  
+    <div class="form-group">
+      <label>Success Text</label>
+      <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Failure Text</label>
+      <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+    </div>
+  </div>
+  

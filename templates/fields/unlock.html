@@ -1,0 +1,30 @@
+<div class="unlock-fields">
+    <div class="form-group">
+      <label>Tool Type</label>
+      <select name="interactions.{{@../index}}.tool">
+        <option value="">-- Select Tool --</option>
+        <option value="thieves-tools">Thieves' Tools</option>
+        <option value="tinker-tools">Tinker’s Tools</option>
+        <option value="smith-tools">Smith’s Tools</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label>Unlock DC</label>
+      <input type="number" name="interactions.{{@../index}}.dc" value="{{dc}}" />
+    </div>
+  
+    <hr>
+  
+    <div class="form-group">
+      <label>Success Text</label>
+      <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Failure Text</label>
+      <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+    </div>
+  </div>
+  

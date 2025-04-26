@@ -18,19 +18,36 @@ Hooks.on("renderTileHUD", (hud, html) => {
 });
 
 Hooks.once("init", async () => {
-  // Helper for conditional logic
+  console.log("🛠️ VE Tiles Interactive Submenu | Initializing...");
+
+  // Register helper for equality checking
   Handlebars.registerHelper("eq", function (a, b) {
     return a === b;
   });
 
-  // Register main interaction-card partial
-  const cardTemplate = await fetch(
-    "modules/ve-tiles-interactive-submenu/templates/interaction-card.html"
-  ).then((res) => res.text());
-  Handlebars.registerPartial(
-    "modules/ve-tiles-interactive-submenu/templates/interaction-card.html",
-    cardTemplate
-  );
+  // List of all partial templates
+  const partials = [
+    "templates/interaction-card.html",
+    "templates/fields/attack.html",
+    "templates/fields/saving-throw.html",
+    "templates/fields/skill-check.html",
+    "templates/fields/unlock.html",
+    "templates/fields/trap.html",
+    "templates/fields/spell-target.html",
+  ];
+
+  // Fetch and register each partial
+  for (let path of partials) {
+    const fullPath = `modules/ve-tiles-interactive-submenu/${path}`;
+    const response = await fetch(fullPath);
+    if (!response.ok) {
+      console.error(`Failed to load Handlebars partial: ${fullPath}`);
+      continue;
+    }
+    const templateContent = await response.text();
+    Handlebars.registerPartial(fullPath, templateContent);
+    console.log(`✅ Registered Handlebars partial: ${fullPath}`);
+  }
 });
 
 // The main interaction editing dialog

@@ -1,0 +1,49 @@
+<div class="skill-check-fields">
+    <div class="form-group">
+      <label>Skill Type</label>
+      <select name="interactions.{{@../index}}.skill">
+        <option value="">-- Select Skill --</option>
+        <option value="acrobatics">Acrobatics</option>
+        <option value="animal-handling">Animal Handling</option>
+        <option value="arcana">Arcana</option>
+        <option value="athletics">Athletics</option>
+        <option value="deception">Deception</option>
+        <option value="history">History</option>
+        <option value="insight">Insight</option>
+        <option value="intimidation">Intimidation</option>
+        <option value="investigation">Investigation</option>
+        <option value="medicine">Medicine</option>
+        <option value="nature">Nature</option>
+        <option value="perception">Perception</option>
+        <option value="performance">Performance</option>
+        <option value="persuasion">Persuasion</option>
+        <option value="religion">Religion</option>
+        <option value="sleight-of-hand">Sleight of Hand</option>
+        <option value="stealth">Stealth</option>
+        <option value="survival">Survival</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label>Skill DC</label>
+      <input type="number" name="interactions.{{@../index}}.dc" value="{{dc}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Damage Expression (optional)</label>
+      <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 2d8" />
+    </div>
+  
+    <hr>
+  
+    <div class="form-group">
+      <label>Success Text</label>
+      <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+    </div>
+  
+    <div class="form-group">
+      <label>Failure Text</label>
+      <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+    </div>
+  </div>
+  
