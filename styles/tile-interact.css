@@ -81,17 +81,26 @@
   .field-group {
     display: flex;
     align-items: center;
-    gap: 0.25em; /* Small gap between label and input */
+    gap: 0.25em;
   }
   
   .invulnerable-group {
-    margin-left: auto; /* push Invulnerable checkbox to the right */
+    display: flex;
+    align-items: center;
   }
   
   input[type="number"].disabled-field {
     background-color: #cccccc4d;
     color: #555;
     pointer-events: none;
+  }
+  
+
+  .ac-hp-row {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-top: 0.5em;
   }
 
   .ve-tools {

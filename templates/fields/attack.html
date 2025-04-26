@@ -1,36 +1,35 @@
 <div class="attack-fields">
-
-  <!-- Custom AC / HP / Invulnerable Row -->
-  <div class="flexrow ac-hp-row" style="margin-bottom: 0.5em; gap: 1em; align-items: center;">
+  
+  <div class="flexrow ac-hp-row align-center" style="margin-bottom: 0.5em;">
+    <!-- Invulnerable first -->
     <div class="flexrow field-group invulnerable-group">
       <input id="invulnerable" type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
       <label for="invulnerable">Invulnerable</label>
     </div>
-    
-    <div class="flexrow field-group">
-      <label for="ac">AC</label>
-      <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
-    </div>
 
-    <div class="flexrow field-group">
-      <label for="hp">HP</label>
-      <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
-    </div>
+    <!-- AC/HP grouped separately -->
+    <div class="flexrow ac-hp-group" style="margin-left: 2.5em; gap: 1em;">
+      <div class="flexrow field-group">
+        <label for="ac">AC</label>
+        <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
+      </div>
 
+      <div class="flexrow field-group">
+        <label for="hp">HP</label>
+        <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
+      </div>
+    </div>
   </div>
 
-  <!-- Standard Form Group -->
+  <!-- Standard Form Fields Below -->
   <div class="form-group">
     <label>When Destroyed</label>
     <input type="text" name="interactions.{{@../index}}.destroyed" value="{{destroyed}}" placeholder="e.g. Shatters into rubble" />
   </div>
 
-  <!-- Advanced Options -->
   <details class="advanced-options">
     <summary><strong>Advanced Options</strong></summary>
-
-    <!-- Vulnerabilities/Resistances/Immunities here -->
-    
+    <!-- Damage types -->
   </details>
 
   <hr>
