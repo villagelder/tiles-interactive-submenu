@@ -29,6 +29,28 @@
     margin-left: 0.5em;
   }
   
+  .damage-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em;
+    margin-bottom: 0.5em;
+  }
+  
+  .damage-tag {
+    background: rgba(0,0,0,0.2);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .damage-tag a.remove-tag {
+    margin-left: 4px;
+    color: red;
+    cursor: pointer;
+    text-decoration: none;
+  }  
   
   .ve-tools {
     margin-top: 5px;

@@ -107,6 +107,46 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".damage-select").change((ev) => {
+      const select = ev.currentTarget;
+      const type = select.dataset.type;
+      const value = select.value;
+      if (!value) return;
+
+      const tagContainer = html.find(`.damage-tags.${type}`);
+      const newTag = $(`
+        <span class="damage-tag" data-value="${value}" data-type="${type}">
+          ${value.charAt(0).toUpperCase() + value.slice(1)}
+          <a class="remove-tag" title="Remove">×</a>
+        </span>
+      `);
+      tagContainer.append(newTag);
+
+      // Remove selected option from dropdown
+      select.querySelector(`option[value="${value}"]`).remove();
+      select.value = "";
+
+      this._saveDamageSelections(html);
+    });
+
+    // Handle removing a damage type tag
+    html.on("click", ".remove-tag", (ev) => {
+      const tag = ev.currentTarget.parentElement;
+      const value = tag.dataset.value;
+      const type = tag.dataset.type;
+      const select = html.find(`select.damage-select[data-type="${type}"]`);
+
+      // Re-add option to dropdown
+      const option = document.createElement("option");
+      option.value = value;
+      option.innerText = value.charAt(0).toUpperCase() + value.slice(1);
+      select.append(option);
+
+      tag.remove();
+
+      this._saveDamageSelections(html);
+    });
+
     // Re-render the app when an interaction type is changed
     html.find(".interaction-type").change((ev) => {
       const select = ev.currentTarget;
@@ -167,6 +207,32 @@ class TileInteractDialog extends FormApplication {
           this.render();
         });
     });
+  }
+
+  async _saveDamageSelections(html) {
+    const vulnerabilities = [
+      ...html.find(".damage-tags.vulnerabilities .damage-tag"),
+    ].map((tag) => tag.dataset.value);
+    const resistances = [
+      ...html.find(".damage-tags.resistances .damage-tag"),
+    ].map((tag) => tag.dataset.value);
+    const immunities = [
+      ...html.find(".damage-tags.immunities .damage-tag"),
+    ].map((tag) => tag.dataset.value);
+
+    const interactions =
+      this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
+    const index = Number(html.closest(".interaction-card").dataset.index);
+
+    interactions[index].vulnerabilities = vulnerabilities;
+    interactions[index].resistances = resistances;
+    interactions[index].immunities = immunities;
+
+    await this.object.setFlag(
+      "ve-tiles-interactive-submenu",
+      "interactions",
+      interactions
+    );
   }
 }
 
