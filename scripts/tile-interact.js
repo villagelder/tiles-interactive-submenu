@@ -285,7 +285,16 @@ class TileInteractDialog extends FormApplication {
       this._sortSelect(select);
       tag.remove();
 
-      this._saveDamageSelections(html);
+      // Save depending on type
+      if (
+        type === "vulnerabilities" ||
+        type === "resistances" ||
+        type === "immunities"
+      ) {
+        this._saveDamageSelections(html);
+      } else if (type === "conditions") {
+        this._saveConditionSelections(html);
+      }
     });
 
     // --- Condition Tags Behavior
@@ -329,6 +338,24 @@ class TileInteractDialog extends FormApplication {
     interactions[index].vulnerabilities = vulnerabilities;
     interactions[index].resistances = resistances;
     interactions[index].immunities = immunities;
+
+    await this.object.setFlag(
+      "ve-tiles-interactive-submenu",
+      "interactions",
+      interactions
+    );
+  }
+
+  async _saveConditionSelections(html) {
+    const conditions = [
+      ...html.find(".damage-tags.conditions .damage-tag"),
+    ].map((tag) => tag.dataset.value);
+
+    const interactions =
+      this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
+    const index = Number(html.closest(".interaction-card").dataset.index);
+
+    interactions[index].conditions = conditions;
 
     await this.object.setFlag(
       "ve-tiles-interactive-submenu",
