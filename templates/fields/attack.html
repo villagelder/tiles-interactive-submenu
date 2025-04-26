@@ -1,50 +1,28 @@
 <div class="attack-fields">
-  
-  <!-- AC / HP / Invulnerable Row -->
-  <div class="flexrow ac-hp-row align-center" style="margin-bottom: 0.5em;">
-    
-    <!-- Invulnerable Checkbox -->
-    <div class="flexrow field-group invulnerable-group">
-      <input id="invulnerable" type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
-      <label for="invulnerable">Invulnerable</label>
-    </div>
+  <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
+    <input type="checkbox" class="field-invulnerable" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}}>
+    <label style="margin-left: 0.5em;">Invulnerable</label>
 
-    <!-- AC and HP fields grouped -->
-    <div class="flexrow ac-hp-group" style="margin-left: 2.5em; gap: 1em;">
-      <div class="flexrow field-group">
-        <label for="ac">AC</label>
-        <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
-      </div>
+    <label style="margin-left: 1em;">AC</label>
+    <input type="number" class="field-ac" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" style="width: 60px; margin: 0 1em;">
 
-      <div class="flexrow field-group">
-        <label for="hp">HP</label>
-        <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
-      </div>
-    </div>
-
+    <label>HP</label>
+    <input type="number" class="field-hp" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" style="width: 60px;">
   </div>
 
-  <!-- When Destroyed -->
   <div class="form-group">
     <label>When Destroyed</label>
-    <input type="text" name="interactions.{{@../index}}.destroyed" value="{{destroyed}}" placeholder="e.g. Shatters into rubble" />
+    <input type="text" name="interactions.{{@../index}}.destroyed" value="{{destroyed}}" placeholder="e.g. Shatters into rubble">
   </div>
 
-  <!-- Advanced Options -->
   <details>
     <summary><strong>Advanced Options</strong></summary>
 
-     <!-- Vulnerabilities -->
-     <div class="form-group">
-      <label>Resistances</label>
-      <div class="damage-tags vulnerabilities" data-type="vulnerabilities">
-        {{#each resistances}}
-          <span class="damage-tag" data-value="{{this}}" data-type="vulnerabilities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="vulnerabilities">
+    <!-- Vulnerabilities -->
+    <div class="form-group">
+      <label>Vulnerabilities</label>
+      <div class="damage-tags vulnerabilities"></div>
+      <select class="damage-select vulnerabilities-select" data-type="vulnerabilities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>
@@ -52,17 +30,11 @@
       </select>
     </div>
 
-     <!-- Resistances -->
-     <div class="form-group">
+    <!-- Resistances -->
+    <div class="form-group">
       <label>Resistances</label>
-      <div class="damage-tags resistances" data-type="resistances">
-        {{#each resistances}}
-          <span class="damage-tag" data-value="{{this}}" data-type="resistances">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="resistances">
+      <div class="damage-tags resistances"></div>
+      <select class="damage-select resistances-select" data-type="resistances">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>
@@ -72,15 +44,9 @@
 
     <!-- Immunities -->
     <div class="form-group">
-      <label>Resistances</label>
-      <div class="damage-tags immunities" data-type="immunities">
-        {{#each resistances}}
-          <span class="damage-tag" data-value="{{this}}" data-type="immunities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="immunities">
+      <label>Immunities</label>
+      <div class="damage-tags immunities"></div>
+      <select class="damage-select immunities-select" data-type="immunities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>
@@ -88,5 +54,4 @@
       </select>
     </div>
   </details>
-
 </div>
