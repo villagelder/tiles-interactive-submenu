@@ -14,9 +14,9 @@
   </div>
 
   <!-- Trigger -->
-  <div class="form-group" style="margin-bottom: 0.75em;">
-    <label>Trigger</label>
-    <input type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
+  <div class="trap-input">
+    <label for="trigger">Trigger</label>
+    <input id="trigger" type="text" name="interactions.{{@../index}}.trigger" value="{{trigger}}" placeholder="e.g. Stepping on pressure plate" />
   </div>
 
   <!-- Damage and Damage Type -->
@@ -39,15 +39,16 @@
 
   <hr>
 
-  <!-- Success and Failure Text -->
-  <div class="form-group">
-    <label>Success Text</label>
-    <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+  <!-- Success Text -->
+  <div class="trap-input">
+    <label for="success">Success Text</label>
+    <input id="success" type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
   </div>
 
-  <div class="form-group">
-    <label>Failure Text</label>
-    <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+  <!-- Failure Text -->
+  <div class="trap-input">
+    <label for="failure">Failure Text</label>
+    <input id="failure" type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
   </div>
 
 </div>

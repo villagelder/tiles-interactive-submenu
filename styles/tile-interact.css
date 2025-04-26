@@ -95,6 +95,22 @@
     pointer-events: none;
   }
 
+  .trap-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  .trap-input label {
+    flex: 0 0 100px; /* Fixed width label for alignment */
+    text-align: left;
+  }
+  
+  .trap-input input, .trap-input select {
+    flex: 1;
+  }
+
 .trap-dc-row,
 .trap-damage-row {
   display: flex;
