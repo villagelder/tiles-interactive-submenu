@@ -99,6 +99,28 @@
     padding-left: 8px;
   }
   
+  .trap-input {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    margin-bottom: 0.5em;
+  }
+  
+  .trap-input label {
+    flex: 0 0 120px;
+    text-align: left;
+  }
+  
+  .trap-input input, .trap-input select {
+    flex: 1;
+  }
+  
+  /* === Required Field Highlight === */
+  input.required-field:invalid {
+    border-color: #ff0000;
+    box-shadow: 0 0 4px rgba(255, 0, 0, 0.7);
+  }
+  
   .trap-dc-row,
   .trap-damage-row {
     display: flex;
@@ -106,18 +128,7 @@
     gap: 1em;
     margin-top: 0.5em;
   }
-  
-  .trap-input {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    margin-bottom: 0.5em;
-  }
-  
-  .trap-input label {
-    flex: 0 0 100px;
-    text-align: left;
-  }
+ 
   
   .trap-input input, .trap-input select {
     flex: 1;
