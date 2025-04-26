@@ -1,15 +1,15 @@
 <div class="trap-fields">
 
   <!-- Detect DC and Disarm DC -->
-  <div class="flexrow trap-dc-row" style="margin-bottom: 0.5em;">
+  <div class="flexrow trap-dc-row">
     <div class="flexrow field-group">
       <label for="detectDC">Detect DC</label>
-      <input id="detectDC" type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
+      <input id="detectDC" type="number" class="required-field" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
     </div>
 
     <div class="flexrow field-group">
       <label for="disarmDC">Disarm DC</label>
-      <input id="disarmDC" type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
+      <input id="disarmDC" type="number" class="required-field" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
     </div>
   </div>
 

@@ -95,6 +95,18 @@
     pointer-events: none;
   }
 
+  .trap-fields {
+    padding-left: 8px;
+  }
+  
+  .trap-dc-row,
+  .trap-damage-row {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-top: 0.5em;
+  }
+  
   .trap-input {
     display: flex;
     align-items: center;
@@ -103,22 +115,19 @@
   }
   
   .trap-input label {
-    flex: 0 0 100px; /* Fixed width label for alignment */
+    flex: 0 0 100px;
     text-align: left;
   }
   
   .trap-input input, .trap-input select {
     flex: 1;
   }
-
-.trap-dc-row,
-.trap-damage-row {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  margin-top: 0.5em;
-}
-
+  
+  /* === Required Field Highlight === */
+  input.required-field:invalid {
+    border-color: #ff0000;
+    box-shadow: 0 0 4px rgba(255, 0, 0, 0.7);
+  }
   .ve-tools {
     margin-top: 5px;
   }
