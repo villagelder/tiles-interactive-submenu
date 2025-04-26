@@ -2,6 +2,11 @@
 
   <!-- Custom AC / HP / Invulnerable Row -->
   <div class="flexrow ac-hp-row" style="margin-bottom: 0.5em; gap: 1em; align-items: center;">
+    <div class="flexrow field-group invulnerable-group">
+      <input id="invulnerable" type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
+      <label for="invulnerable">Invulnerable</label>
+    </div>
+    
     <div class="flexrow field-group">
       <label for="ac">AC</label>
       <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
@@ -12,10 +17,6 @@
       <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
     </div>
 
-    <div class="flexrow field-group invulnerable-group">
-      <input id="invulnerable" type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
-      <label for="invulnerable">Invulnerable</label>
-    </div>
   </div>
 
   <!-- Standard Form Group -->
