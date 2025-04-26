@@ -1,17 +1,17 @@
 <div class="attack-fields">
-  <div class="form-group flexrow">
-    <div class="flexcol">
-      <label>AC</label>
-      <input type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
+  <div class="form-group flexrow align-center">
+    <div class="flexcol small-field">
+      <label for="ac">AC</label>
+      <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
     </div>
 
-    <div class="flexcol">
-      <label>HP</label>
-      <input type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
+    <div class="flexcol small-field">
+      <label for="hp">HP</label>
+      <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
     </div>
 
-    <div class="flexcol" style="margin-top: 20px;">
-      <label>
+    <div class="flexcol small-field invulnerable-field">
+      <label style="white-space: nowrap;">
         <input type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
         Invulnerable
       </label>

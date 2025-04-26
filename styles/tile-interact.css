@@ -52,6 +52,38 @@
     text-decoration: none;
   }  
   
+  .form-group.flexrow.align-center {
+    display: flex;
+    align-items: center; /* Vertical center */
+    gap: 1.5em; /* Space between AC - HP - Invulnerable */
+  }
+  
+  .flexcol.small-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .invulnerable-field {
+    margin-top: 0.5em; /* fine-tune if needed */
+  }
+  
+  .flexcol.small-field label {
+    font-size: 0.85em;
+    margin-bottom: 2px;
+  }
+  
+  .flexcol.small-field input[type="number"],
+  .flexcol.small-field input[type="checkbox"] {
+    margin-top: 2px;
+  }
+
+  input[type="number"].disabled-field {
+    background-color: #cccccc4d; /* Light gray transparent */
+    color: #555;
+    pointer-events: none; /* Block focus/clicks */
+  }
+
   .ve-tools {
     margin-top: 5px;
   }

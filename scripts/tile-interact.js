@@ -163,6 +163,14 @@ class TileInteractDialog extends FormApplication {
       const disabled = checkbox.checked;
       acField.disabled = disabled;
       hpField.disabled = disabled;
+
+      if (disabled) {
+        acField.classList.add("disabled-field");
+        hpField.classList.add("disabled-field");
+      } else {
+        acField.classList.remove("disabled-field");
+        hpField.classList.remove("disabled-field");
+      }
     });
 
     // === Handle adding an interaction ===
