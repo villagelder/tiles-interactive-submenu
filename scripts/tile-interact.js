@@ -68,6 +68,26 @@ class TileInteractDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // Re-render the app when an interaction type is changed
+    html.find(".interaction-type").change((ev) => {
+      const select = ev.currentTarget;
+      const index = Number(select.closest(".interaction-card").dataset.index);
+      const selectedType = select.value;
+
+      const interactions =
+        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
+        [];
+      interactions[index].type = selectedType;
+
+      // Save and re-render
+      this.object
+        .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
+        .then(() => {
+          this.render();
+        });
+    });
+
+    // Add interaction
     html.find(".add-interaction").click((ev) => {
       const interactions =
         this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
@@ -77,19 +97,23 @@ class TileInteractDialog extends FormApplication {
         return;
       }
       interactions.push({ type: "" });
-      this.object.setFlag(
-        "ve-tiles-interactive-submenu",
-        "interactions",
-        interactions
-      );
-      this.render();
+      this.object
+        .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
+        .then(() => {
+          this.render();
+        });
     });
 
-    html.find(".delete-all").click((ev) => {
-      this.object.unsetFlag("ve-tiles-interactive-submenu", "interactions");
-      this.render();
+    // Delete all
+    html.find(".delete-all").click(() => {
+      this.object
+        .unsetFlag("ve-tiles-interactive-submenu", "interactions")
+        .then(() => {
+          this.render();
+        });
     });
 
+    // Delete a single card
     html.find(".delete-interaction").click((ev) => {
       const index = Number(
         ev.currentTarget.closest(".interaction-card").dataset.index
@@ -98,12 +122,11 @@ class TileInteractDialog extends FormApplication {
         this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
         [];
       interactions.splice(index, 1);
-      this.object.setFlag(
-        "ve-tiles-interactive-submenu",
-        "interactions",
-        interactions
-      );
-      this.render();
+      this.object
+        .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
+        .then(() => {
+          this.render();
+        });
     });
   }
 }
