@@ -222,7 +222,7 @@ class TileInteractDialog extends FormApplication {
         .then(() => this.render());
     });
 
-    // --- Multiselect damage tags (vulnerabilities, resistances, immunities)
+    // --- Multiselect damage types
     html.find(".damage-select").change((ev) => {
       const select = ev.currentTarget;
       const value = select.value;
@@ -232,13 +232,13 @@ class TileInteractDialog extends FormApplication {
       const card = select.closest(".interaction-card");
       const tagContainer = $(card).find(`.damage-tags.${type}`);
 
-      const newTag = $(`
+      const tag = $(`
         <span class="damage-tag" data-value="${value}" data-type="${type}">
-          ${capitalize(value)}
+          ${value.charAt(0).toUpperCase() + value.slice(1)}
           <a class="remove-tag" title="Remove">×</a>
         </span>
       `);
-      tagContainer.append(newTag);
+      tagContainer.append(tag);
 
       select.querySelector(`option[value="${value}"]`).remove();
       select.value = "";
@@ -246,7 +246,7 @@ class TileInteractDialog extends FormApplication {
       this._saveDamageSelections($(card));
     });
 
-    // --- Multiselect trap conditions
+    // --- Multiselect conditions
     html.find(".condition-select").change((ev) => {
       const select = ev.currentTarget;
       const value = select.value;
@@ -256,13 +256,13 @@ class TileInteractDialog extends FormApplication {
       const card = select.closest(".interaction-card");
       const tagContainer = $(card).find(`.damage-tags.${type}`);
 
-      const newTag = $(`
+      const tag = $(`
         <span class="damage-tag" data-value="${value}" data-type="${type}">
-          ${capitalize(value)}
+          ${value.charAt(0).toUpperCase() + value.slice(1)}
           <a class="remove-tag" title="Remove">×</a>
         </span>
       `);
-      tagContainer.append(newTag);
+      tagContainer.append(tag);
 
       select.querySelector(`option[value="${value}"]`).remove();
       select.value = "";
@@ -270,7 +270,7 @@ class TileInteractDialog extends FormApplication {
       this._saveConditionSelections($(card));
     });
 
-    // --- Remove tag (damage types or conditions)
+    // --- Handle removing tags
     html.on("click", ".remove-tag", (ev) => {
       const tag = $(ev.currentTarget).closest(".damage-tag");
       const value = tag.data("value");
@@ -279,7 +279,9 @@ class TileInteractDialog extends FormApplication {
       const select = $(card).find(`select[data-type="${type}"]`);
 
       const option = $(
-        `<option value="${value}">${capitalize(value)}</option>`
+        `<option value="${value}">${
+          value.charAt(0).toUpperCase() + value.slice(1)
+        }</option>`
       );
       select.append(option);
 
@@ -293,7 +295,7 @@ class TileInteractDialog extends FormApplication {
       }
     });
 
-    // --- Handle clicking "Test Trap" button
+    // --- Test Trap button
     html.find(".test-trap-button").click(async (ev) => {
       const card = ev.currentTarget.closest(".interaction-card");
       const index = Number($(card).data("index"));
@@ -310,26 +312,22 @@ class TileInteractDialog extends FormApplication {
 
       let output = `<h2>Trap Test</h2>`;
 
-      // Saving Throw check
       if (interaction.saveDC && Number(interaction.saveDC) > 0) {
-        const roll = new Roll("1d20 + 2"); // Simulated saving throw (+2 modifier average)
+        const roll = new Roll("1d20 + 2");
         await roll.evaluate({ async: true });
 
         const total = roll.total;
-        const saveResult = total >= interaction.saveDC ? "SUCCESS" : "FAILURE";
-
-        output += `<p><strong>Saving Throw (DC ${interaction.saveDC}):</strong> ${total} → ${saveResult}</p>`;
+        const result = total >= interaction.saveDC ? "SUCCESS" : "FAILURE";
+        output += `<p><strong>Saving Throw (DC ${interaction.saveDC}):</strong> ${total} → ${result}</p>`;
       }
 
-      // Damage roll
       if (interaction.damage) {
         const dmgRoll = new Roll(interaction.damage);
         await dmgRoll.evaluate({ async: true });
         output += `<p><strong>Damage:</strong> ${dmgRoll.total} (${interaction.damage})</p>`;
       }
 
-      // Conditions applied
-      if (interaction.conditions && interaction.conditions.length > 0) {
+      if (interaction.conditions?.length > 0) {
         output += `<p><strong>Applied Conditions:</strong> ${interaction.conditions.join(
           ", "
         )}</p>`;
@@ -346,15 +344,15 @@ class TileInteractDialog extends FormApplication {
   async _saveDamageSelections(card) {
     const vulnerabilities = [
       ...card.find(".damage-tags.vulnerabilities .damage-tag"),
-    ].map((tag) => tag.dataset.value);
+    ].map((t) => t.dataset.value);
     const resistances = [
       ...card.find(".damage-tags.resistances .damage-tag"),
-    ].map((tag) => tag.dataset.value);
+    ].map((t) => t.dataset.value);
     const immunities = [
       ...card.find(".damage-tags.immunities .damage-tag"),
-    ].map((tag) => tag.dataset.value);
+    ].map((t) => t.dataset.value);
 
-    const index = Number($(card).data("index"));
+    const index = Number(card.data("index"));
     const interactions =
       this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
 
@@ -372,9 +370,9 @@ class TileInteractDialog extends FormApplication {
   async _saveConditionSelections(card) {
     const conditions = [
       ...card.find(".damage-tags.conditions .damage-tag"),
-    ].map((tag) => tag.dataset.value);
+    ].map((t) => t.dataset.value);
 
-    const index = Number($(card).data("index"));
+    const index = Number(card.data("index"));
     const interactions =
       this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
 
