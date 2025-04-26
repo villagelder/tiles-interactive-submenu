@@ -48,6 +48,28 @@ Hooks.once("init", async () => {
     Handlebars.registerPartial(fullPath, templateContent);
     console.log(`✅ Registered Handlebars partial: ${fullPath}`);
   }
+
+  Handlebars.registerHelper("damageTypes", () => [
+    "acid",
+    "bludgeoning",
+    "cold",
+    "fire",
+    "force",
+    "lightning",
+    "necrotic",
+    "piercing",
+    "poison",
+    "psychic",
+    "radiant",
+    "slashing",
+    "thunder",
+  ]);
+
+  // Optional: Capitalize helper
+  Handlebars.registerHelper("capitalize", (text) => {
+    if (typeof text !== "string") return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  });
 });
 
 // The main interaction editing dialog
