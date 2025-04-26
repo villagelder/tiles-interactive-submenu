@@ -1,83 +1,47 @@
 <div class="attack-fields">
-  <div class="form-group flexrow align-center">
-    <div class="flexcol small-field flexrow align-center gap-small">
+
+  <!-- Custom AC / HP / Invulnerable Row -->
+  <div class="flexrow ac-hp-row" style="margin-bottom: 0.5em; gap: 1em; align-items: center;">
+    <div class="flexrow field-group">
       <label for="ac">AC</label>
       <input id="ac" type="number" name="interactions.{{@../index}}.ac" value="{{ac}}" min="0" step="1" class="field-ac" />
     </div>
 
-    <div class="flexcol small-field flexrow align-center gap-small">
+    <div class="flexrow field-group">
       <label for="hp">HP</label>
       <input id="hp" type="number" name="interactions.{{@../index}}.hp" value="{{hp}}" min="0" step="1" class="field-hp" />
     </div>
 
-    <div class="flexcol small-field invulnerable-field flexrow align-center gap-small">
-      <input type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
-      <label>Invulnerable</label>
+    <div class="flexrow field-group invulnerable-group">
+      <input id="invulnerable" type="checkbox" name="interactions.{{@../index}}.invulnerable" {{#if invulnerable}}checked{{/if}} class="field-invulnerable" />
+      <label for="invulnerable">Invulnerable</label>
     </div>
   </div>
 
+  <!-- Standard Form Group -->
   <div class="form-group">
     <label>When Destroyed</label>
     <input type="text" name="interactions.{{@../index}}.destroyed" value="{{destroyed}}" placeholder="e.g. Shatters into rubble" />
   </div>
 
+  <!-- Advanced Options -->
   <details class="advanced-options">
     <summary><strong>Advanced Options</strong></summary>
 
-    <!-- VULNERABILITIES -->
-    <div class="form-group">
-      <label>Vulnerabilities</label>
-      <div class="damage-tags vulnerabilities" data-type="vulnerabilities">
-        {{#each vulnerabilities}}
-          <span class="damage-tag" data-value="{{this}}" data-type="vulnerabilities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="vulnerabilities">
-        <option value="">-- Select Damage Type --</option>
-        {{#each (damageTypes)}}
-          <option value="{{this}}">{{capitalize this}}</option>
-        {{/each}}
-      </select>
-    </div>
-
-    <!-- RESISTANCES -->
-    <div class="form-group">
-      <label>Resistances</label>
-      <div class="damage-tags resistances" data-type="resistances">
-        {{#each resistances}}
-          <span class="damage-tag" data-value="{{this}}" data-type="resistances">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="resistances">
-        <option value="">-- Select Damage Type --</option>
-        {{#each (damageTypes)}}
-          <option value="{{this}}">{{capitalize this}}</option>
-        {{/each}}
-      </select>
-    </div>
-
-    <!-- IMMUNITIES -->
-    <div class="form-group">
-      <label>Immunities</label>
-      <div class="damage-tags immunities" data-type="immunities">
-        {{#each immunities}}
-          <span class="damage-tag" data-value="{{this}}" data-type="immunities">
-            {{capitalize this}} <a class="remove-tag">×</a>
-          </span>
-        {{/each}}
-      </div>
-      <select class="damage-select" data-type="immunities">
-        <option value="">-- Select Damage Type --</option>
-        {{#each (damageTypes)}}
-          <option value="{{this}}">{{capitalize this}}</option>
-        {{/each}}
-      </select>
-    </div>
-
+    <!-- Vulnerabilities/Resistances/Immunities here -->
+    
   </details>
+
+  <hr>
+
+  <div class="form-group">
+    <label>Success Text</label>
+    <input type="text" name="interactions.{{@../index}}.success" value="{{success}}" />
+  </div>
+
+  <div class="form-group">
+    <label>Failure Text</label>
+    <input type="text" name="interactions.{{@../index}}.failure" value="{{failure}}" />
+  </div>
 
 </div>

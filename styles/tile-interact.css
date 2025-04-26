@@ -67,14 +67,30 @@
     gap: 0.25em; /* small gap between label and input inside fields */
   }
   
+  .invulnerable-field {
+    margin-top: 0; /* no weird shift */
+  }
+
+  .ac-hp-row {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  
+  .field-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25em; /* Small gap between label and input */
+  }
+  
+  .invulnerable-group {
+    margin-left: auto; /* push Invulnerable checkbox to the right */
+  }
+  
   input[type="number"].disabled-field {
     background-color: #cccccc4d;
     color: #555;
     pointer-events: none;
-  }
-  
-  .invulnerable-field {
-    margin-top: 0; /* no weird shift */
   }
 
   .ve-tools {
