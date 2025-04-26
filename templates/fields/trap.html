@@ -2,23 +2,18 @@
 
   <!-- Detect DC and Disarm DC -->
   <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
-    <div style="flex: 1;">
       <label>Detect DC</label>
       <input type="number" name="interactions.{{@../index}}.detectDC" value="{{detectDC}}" min="0" step="1" />
-    </div>
-    <div style="flex: 1; margin-left: 1em;">
+    
       <label>Disarm DC</label>
       <input type="number" name="interactions.{{@../index}}.disarmDC" value="{{disarmDC}}" min="0" step="1" />
-    </div>
   </div>
 
   <!-- Damage and Damage Type -->
   <div class="form-group flexrow" style="align-items: center; margin-bottom: 0.75em;">
-    <div style="flex: 1;">
       <label>Damage</label>
       <input type="text" name="interactions.{{@../index}}.damage" value="{{damage}}" placeholder="e.g. 4d6" />
-    </div>
-    <div style="flex: 1; margin-left: 1em;">
+    
       <label>Damage Type</label>
       <select name="interactions.{{@../index}}.damageType">
         <option value="">-- Select Damage Type --</option>
@@ -26,7 +21,6 @@
           <option value="{{this}}" {{#if (eq ../damageType this)}}selected{{/if}}>{{capitalize this}}</option>
         {{/each}}
       </select>
-    </div>
   </div>
 
   <!-- Trigger -->
