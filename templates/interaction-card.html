@@ -1,15 +1,13 @@
 <div class="interaction-card" data-index="{{@index}}">
   <div class="flexrow">
     <select name="interactions.{{@index}}.type" class="interaction-type">
-      <option value="">-- Select Interaction Type --</option>
-      <option value="attack">Attack</option>
-      <option value="saving-throw">Saving Throw</option>
-      <option value="skill-check">Skill Check</option>
-      <option value="unlock">Lock/Unlock</option>
-      <option value="trap">Trap</option>
-      <option value="spell-target">Spell Target</option>
-      <option value="success">Success</option>
-      <option value="failure">Failure</option>
+      <option value="" {{#if (eq type "")}}selected{{/if}}>-- Select Interaction Type --</option>
+      <option value="attack" {{#if (eq type "attack")}}selected{{/if}}>Attack</option>
+      <option value="saving-throw" {{#if (eq type "saving-throw")}}selected{{/if}}>Saving Throw</option>
+      <option value="skill-check" {{#if (eq type "skill-check")}}selected{{/if}}>Skill Check</option>
+      <option value="unlock" {{#if (eq type "unlock")}}selected{{/if}}>Lock/Unlock</option>
+      <option value="trap" {{#if (eq type "trap")}}selected{{/if}}>Trap</option>
+      <option value="spell-target" {{#if (eq type "spell-target")}}selected{{/if}}>Spell Target</option>
     </select>
 
     <button type="button" class="delete-interaction">

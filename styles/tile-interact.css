@@ -15,6 +15,20 @@
     margin-bottom: 0.5em;
     background: rgba(255,255,255,0.05);
   }
+
+  .interaction-card .flexrow select.interaction-type {
+    height: 32px; /* Match standard button height */
+    padding: 2px 6px;
+    font-size: 0.95em;
+  }
+  
+  .interaction-card .flexrow button.delete-interaction {
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    margin-left: 0.5em;
+  }
+  
   
   .ve-tools {
     margin-top: 5px;
