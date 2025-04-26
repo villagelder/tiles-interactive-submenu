@@ -22,7 +22,7 @@
     <div class="form-group">
       <label>Vulnerabilities</label>
       <div class="damage-tags vulnerabilities"></div>
-      <select class="damage-select vulnerabilities-select" data-type="vulnerabilities">
+      <select class="damage-select" data-type="vulnerabilities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>
@@ -34,7 +34,7 @@
     <div class="form-group">
       <label>Resistances</label>
       <div class="damage-tags resistances"></div>
-      <select class="damage-select resistances-select" data-type="resistances">
+      <select class="damage-select" data-type="resistances">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>
@@ -46,7 +46,7 @@
     <div class="form-group">
       <label>Immunities</label>
       <div class="damage-tags immunities"></div>
-      <select class="damage-select immunities-select" data-type="immunities">
+      <select class="damage-select" data-type="immunities">
         <option value="">-- Select Damage Type --</option>
         {{#each (damageTypes)}}
           <option value="{{this}}">{{capitalize this}}</option>

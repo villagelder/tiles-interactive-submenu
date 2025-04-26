@@ -21,7 +21,7 @@ Hooks.on("renderTileHUD", (hud, html) => {
 Hooks.once("init", async () => {
   console.log("🛠️ VE Tiles Interactive Submenu | Initializing...");
 
-  // Register Handlebars helpers
+  // Handlebars helpers
   Handlebars.registerHelper("eq", (a, b) => a === b);
 
   Handlebars.registerHelper("damageTypes", () => [
@@ -126,24 +126,21 @@ class TileInteractDialog extends FormApplication {
 
     for (let i = 0; i < interactions.length; i++) {
       const interaction = interactions[i];
-
-      if (interaction.type === "attack") {
-        if (!interaction.invulnerable) {
-          const ac = interaction.ac;
-          const hp = interaction.hp;
-          if (
-            !Number.isInteger(ac) ||
-            ac < 0 ||
-            !Number.isInteger(hp) ||
-            hp < 0
-          ) {
-            ui.notifications.error(
-              `Interaction ${i + 1}: AC and HP must be positive integers.`
-            );
-            throw new Error(
-              "Validation failed: AC/HP must be positive integers."
-            );
-          }
+      if (interaction.type === "attack" && !interaction.invulnerable) {
+        const ac = interaction.ac;
+        const hp = interaction.hp;
+        if (
+          !Number.isInteger(ac) ||
+          ac < 0 ||
+          !Number.isInteger(hp) ||
+          hp < 0
+        ) {
+          ui.notifications.error(
+            `Interaction ${i + 1}: AC and HP must be positive integers.`
+          );
+          throw new Error(
+            "Validation failed: AC/HP must be positive integers."
+          );
         }
       }
     }
@@ -171,25 +168,7 @@ class TileInteractDialog extends FormApplication {
 
       this.object
         .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
-        .then(() => {
-          this.render();
-        });
-    });
-
-    // --- Toggle Saving Throw Section
-    html.find('input[name^="interactions"]').on("input", (event) => {
-      const saveDCInput = html.find(
-        'input[name^="interactions"][name$=".saveDC"]'
-      );
-      const saveSection = html.find("#saving-throw-section");
-
-      const saveDCValue = parseInt(saveDCInput.val() || "0");
-
-      if (saveDCValue > 0) {
-        saveSection.slideDown(200);
-      } else {
-        saveSection.slideUp(200);
-      }
+        .then(() => this.render());
     });
 
     // --- Invulnerable checkbox disables AC/HP
@@ -219,18 +198,14 @@ class TileInteractDialog extends FormApplication {
       interactions.push({ type: "" });
       this.object
         .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
-        .then(() => {
-          this.render();
-        });
+        .then(() => this.render());
     });
 
     // --- Delete All Interactions
     html.find(".delete-all").click(() => {
       this.object
         .unsetFlag("ve-tiles-interactive-submenu", "interactions")
-        .then(() => {
-          this.render();
-        });
+        .then(() => this.render());
     });
 
     // --- Delete Single Interaction
@@ -244,38 +219,64 @@ class TileInteractDialog extends FormApplication {
       interactions.splice(index, 1);
       this.object
         .setFlag("ve-tiles-interactive-submenu", "interactions", interactions)
-        .then(() => {
-          this.render();
-        });
+        .then(() => this.render());
     });
 
-    // --- Damage Type Selection (Vulnerabilities, Resistances, Immunities)
+    // --- Multiselect damage tags (vulnerabilities, resistances, immunities)
     html.find(".damage-select").change((ev) => {
       const select = ev.currentTarget;
-      const type = select.dataset.type;
       const value = select.value;
       if (!value) return;
 
-      const tagContainer = html.find(`.damage-tags.${type}`);
-      const tag = $(`
+      const type = select.dataset.type;
+      const card = select.closest(".interaction-card");
+      const tagContainer = $(card).find(`.damage-tags.${type}`);
+
+      const newTag = $(`
         <span class="damage-tag" data-value="${value}" data-type="${type}">
           ${capitalize(value)}
           <a class="remove-tag" title="Remove">×</a>
         </span>
       `);
-      tagContainer.append(tag);
+      tagContainer.append(newTag);
 
       select.querySelector(`option[value="${value}"]`).remove();
       select.value = "";
 
-      this._saveDamageSelections(html);
+      this._saveDamageSelections($(card));
     });
 
+    // --- Multiselect trap conditions
+    html.find(".condition-select").change((ev) => {
+      const select = ev.currentTarget;
+      const value = select.value;
+      if (!value) return;
+
+      const type = select.dataset.type;
+      const card = select.closest(".interaction-card");
+      const tagContainer = $(card).find(`.damage-tags.${type}`);
+
+      const newTag = $(`
+        <span class="damage-tag" data-value="${value}" data-type="${type}">
+          ${capitalize(value)}
+          <a class="remove-tag" title="Remove">×</a>
+        </span>
+      `);
+      tagContainer.append(newTag);
+
+      select.querySelector(`option[value="${value}"]`).remove();
+      select.value = "";
+
+      this._saveConditionSelections($(card));
+    });
+
+    // --- Remove tag (damage types or conditions)
     html.on("click", ".remove-tag", (ev) => {
       const tag = $(ev.currentTarget).closest(".damage-tag");
       const value = tag.data("value");
       const type = tag.data("type");
-      const select = html.find(`select.${type}-select`);
+      const card = tag.closest(".interaction-card");
+      const select = $(card).find(`select[data-type="${type}"]`);
 
       const option = $(
         `<option value="${value}">${capitalize(value)}</option>`
@@ -285,55 +286,77 @@ class TileInteractDialog extends FormApplication {
       this._sortSelect(select);
       tag.remove();
 
-      // Save depending on type
-      if (
-        type === "vulnerabilities" ||
-        type === "resistances" ||
-        type === "immunities"
-      ) {
-        this._saveDamageSelections(html);
+      if (["vulnerabilities", "resistances", "immunities"].includes(type)) {
+        this._saveDamageSelections(card);
       } else if (type === "conditions") {
-        this._saveConditionSelections(html);
+        this._saveConditionSelections(card);
       }
     });
 
-    // --- Condition Tags Behavior
-    html.find(".condition-select").on("change", (event) => {
-      const select = $(event.currentTarget);
-      const value = select.val();
-      if (!value) return;
+    // --- Handle clicking "Test Trap" button
+    html.find(".test-trap-button").click(async (ev) => {
+      const card = ev.currentTarget.closest(".interaction-card");
+      const index = Number($(card).data("index"));
 
-      const type = select.data("type");
-      const tagContainer = html.find(`.${type}-tags`);
-      const tag = $(`
-        <span class="damage-tag" data-value="${value}" data-type="${type}">
-          ${capitalize(value)}
-          <a class="remove-tag">×</a>
-        </span>
-      `);
-      tagContainer.append(tag);
+      const interactions =
+        this.object.getFlag("ve-tiles-interactive-submenu", "interactions") ||
+        [];
+      const interaction = interactions[index];
 
-      select.find(`option[value="${value}"]`).remove();
-      select.val("");
+      if (!interaction) {
+        ui.notifications.error("No trap interaction data found.");
+        return;
+      }
 
-      this._sortSelect(select);
+      let output = `<h2>Trap Test</h2>`;
+
+      // Saving Throw check
+      if (interaction.saveDC && Number(interaction.saveDC) > 0) {
+        const roll = new Roll("1d20 + 2"); // Simulated saving throw (+2 modifier average)
+        await roll.evaluate({ async: true });
+
+        const total = roll.total;
+        const saveResult = total >= interaction.saveDC ? "SUCCESS" : "FAILURE";
+
+        output += `<p><strong>Saving Throw (DC ${interaction.saveDC}):</strong> ${total} → ${saveResult}</p>`;
+      }
+
+      // Damage roll
+      if (interaction.damage) {
+        const dmgRoll = new Roll(interaction.damage);
+        await dmgRoll.evaluate({ async: true });
+        output += `<p><strong>Damage:</strong> ${dmgRoll.total} (${interaction.damage})</p>`;
+      }
+
+      // Conditions applied
+      if (interaction.conditions && interaction.conditions.length > 0) {
+        output += `<p><strong>Applied Conditions:</strong> ${interaction.conditions.join(
+          ", "
+        )}</p>`;
+      }
+
+      ChatMessage.create({
+        content: output,
+        whisper: [game.user.id],
+        speaker: { alias: "Trap Tester" },
+      });
     });
   }
 
-  async _saveDamageSelections(html) {
+  async _saveDamageSelections(card) {
     const vulnerabilities = [
-      ...html.find(".damage-tags.vulnerabilities .damage-tag"),
+      ...card.find(".damage-tags.vulnerabilities .damage-tag"),
     ].map((tag) => tag.dataset.value);
     const resistances = [
-      ...html.find(".damage-tags.resistances .damage-tag"),
+      ...card.find(".damage-tags.resistances .damage-tag"),
     ].map((tag) => tag.dataset.value);
     const immunities = [
-      ...html.find(".damage-tags.immunities .damage-tag"),
+      ...card.find(".damage-tags.immunities .damage-tag"),
     ].map((tag) => tag.dataset.value);
 
+    const index = Number($(card).data("index"));
     const interactions =
       this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
-    const index = Number(html.closest(".interaction-card").dataset.index);
 
     interactions[index].vulnerabilities = vulnerabilities;
     interactions[index].resistances = resistances;
@@ -346,14 +369,14 @@ class TileInteractDialog extends FormApplication {
     );
   }
 
-  async _saveConditionSelections(html) {
+  async _saveConditionSelections(card) {
     const conditions = [
-      ...html.find(".damage-tags.conditions .damage-tag"),
+      ...card.find(".damage-tags.conditions .damage-tag"),
     ].map((tag) => tag.dataset.value);
 
+    const index = Number($(card).data("index"));
     const interactions =
       this.object.getFlag("ve-tiles-interactive-submenu", "interactions") || [];
-    const index = Number(html.closest(".interaction-card").dataset.index);
 
     interactions[index].conditions = conditions;
 
